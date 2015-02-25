@@ -18,7 +18,6 @@ import wclem12.com.agameofyou.util.Utils;
 
 public class SettingsFragment extends PreferenceFragment {
     private String callingActivity = "";
-
     private String themeStr;
     private float fontSizeFloat;
 
@@ -56,6 +55,8 @@ public class SettingsFragment extends PreferenceFragment {
                 } else if (fontSizeFloat == Utils.TEXTSIZE_LARGE) {
                     Utils.changeTextSize(getActivity(), Utils.TEXTSIZE_LARGE, callingActivity);
                 }
+
+                saveSettings();
 
                 return true;
             }
@@ -122,8 +123,6 @@ public class SettingsFragment extends PreferenceFragment {
     @Override
     public void onStop() {
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
-
-        saveSettings();
 
         super.onStop();
     }

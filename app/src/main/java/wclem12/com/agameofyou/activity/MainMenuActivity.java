@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -58,8 +57,7 @@ public class MainMenuActivity extends BaseActivity {
          * Establish shared prefs
          */
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        String currentActivity = settings.getString("activity", "main_menu");
-        Log.i("....", "Current activity: " + currentActivity);
+        String currentActivity = settings.getString("activity", "");
 
         String themeStr = settings.getString("theme", Utils.THEME_LIGHT);
         float fontSizeFloat = settings.getFloat("font", Utils.TEXTSIZE_MEDIUM);
@@ -233,5 +231,14 @@ public class MainMenuActivity extends BaseActivity {
 
             return story;
         }
+    }
+
+    private void saveSettings() {
+        SharedPreferences settings = getSharedPreferences(MainMenuActivity.PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("activity", "main_menu");
+
+        // Commit edits
+        editor.commit();
     }
 }
