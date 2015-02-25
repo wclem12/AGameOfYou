@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+    XML Tags
+        <story>                                 Story File XML
+	        <details>
+		        <title> 						Story Title
+                <author>						Story Author
+                <create_date>   				Date Story Was Created
+                <last_edit_date>			    Date of Last Edit
+                <creator_username>		        Author's Username
+                <unique_id>						Unique Identifier. Generated at creation.
+                <genre>							Story Genre. 1 to many?
+                <tags>							(Optional. Can be left blank.) Identifier tags for story.
+            <content>
+                <page_content>					Content of a Single Page
+                <page_type>						Page Types: Title, First, Next, Last (Title Page set to 0, First page at 1, etc.)
+                <page_number>					Page Number
+                <page_text>						Page's Text. Contains HTML tags and signatures for unique characters.
+                <button>						Button Object. 0 to many. (Title Page has one button which starts story. Last Page has two: one to return to main menu, one to start over.
+                    <button_destination>		Page Number of Button's Destination. If -1, return to Main Menu.
+                    <button_text>				Button's text
+
+
+
+        <story_manifest>                        Story Manifest XML
+	        <story>
+		        <title>         			    Button text to be displayed. <title> from Above schema
+                <author>                        Name to be displayed on Main Menu
+                <xml_id>                        XML file path. Take the file name, take out the .xml part, and put it as the id.
+    -->
+
+    <!--                    ***************************************                  -->
+    <!--                    *               App Info              *                  -->
+    <!--                    ***************************************                  -->
+    <string name="app_name">A Game of You</string>
+    <string name="manifest_filename">story_manifest</string>
+
+    <!--                    ***************************************                  -->
+    <!--                    *           Tags to be Used           *                  -->
+    <!--                    ***************************************                  -->
+    <!--                    *              Story XML              *                  -->
+    <string name="story_tag">story</string>
+    <string name="details_tag">details</string>
+    <string name="title_tag">title</string>
+    <string name="author_tag">author</string>
+    <string name="create_date_tag">create_date</string>
+    <string name="last_edit_date_tag">last_edit_date</string>
+    <string name="creator_username_tag">creator_username</string>
+    <string name="unique_id_tag">unique_id</string>
+    <string name="genre_tag">genre</string>
+    <string name="tags_tag">tags</string>
+    <string name="content_tag">content</string>
+    <string name="page_content_tag">page_content</string>
+    <string name="page_type_tag">page_type</string>
+    <string name="page_number_tag">page_number</string>
+    <string name="page_text_tag">page_text</string>
+    <string name="button_tag">button</string>
+    <string name="button_destination_tag">button_destination</string>
+    <string name="button_text_tag">button_text</string>
+
+    <!--                    *         Story Manifest XML          *                  -->
+    <string name="manifest_story_manifest_tag">story_manifest</string>
+    <string name="manifest_story_tag">story</string>
+    <string name="manifest_title_tag">title</string>
+    <string name="manifest_author_tag">author</string>
+    <string name="manifest_xml_id_tag">xml_id</string>
+
+    <!--                    ***************************************                  -->
+    <!--                    *             Title Page              *                  -->
+    <!--                    ***************************************                  -->
+    <string name="title_page_title">title</string>
+    <string name="title_page_author">author</string>
+    <string name="title_page_create_date">create_date</string>
+    <string name="title_page_edit_date">last_edit_date</string>
+    <string name="title_page_creator_username">creator_username</string>
+    <string name="title_page_unique_id">unique_id</string>
+    <string name="title_page_genre">genre</string>
+    <string name="title_page_start_button">Begin Story</string>
+
+    <!--                    ***************************************                  -->
+    <!--                    *             Next Page              *                  -->
+    <!--                    ***************************************                  -->
+    <string name="next_page_text">Default Text</string>
+
+    <string name="pref_text_size">Text Size</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="pref_font_size">pref_font_size</string>
+    <string name="pref_theme">pref_theme</string>
+    <string name="pref_fullscreen">pref_fullscreen</string>
+    <string name="action_restart">Restart Story</string>
+    <string name="action_main_menu">Main Menu</string>
+
+</resources>

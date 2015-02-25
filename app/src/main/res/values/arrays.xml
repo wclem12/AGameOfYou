@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="font_size_entries">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+    </string-array>
+    <string-array name="font_size_values">
+        <item>14</item>
+        <item>18</item>
+        <item>22</item>
+    </string-array>
+    <string-array name="theme_entries">
+        <item>Light</item>
+        <item>Dark</item>
+        <item>Sepia</item>
+    </string-array>
+    <string-array name="theme_values">
+        <item>Theme.Light</item>
+        <item>Theme.Dark</item>
+        <item>Theme.Sepia</item>
+    </string-array>
+</resources>
