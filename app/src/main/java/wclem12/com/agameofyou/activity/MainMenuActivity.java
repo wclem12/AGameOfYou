@@ -59,10 +59,12 @@ public class MainMenuActivity extends BaseActivity {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         String currentActivity = settings.getString("activity", "");
 
+        float textSizeFloat = settings.getFloat("textsize", Utils.TEXTSIZE_MEDIUM);
+        String fontStyleStr = settings.getString("fontstyle", Utils.FONTSTYLE_ROBOTO);
         String themeStr = settings.getString("theme", Utils.THEME_LIGHT);
-        float fontSizeFloat = settings.getFloat("font", Utils.TEXTSIZE_MEDIUM);
 
-        Utils.changeTextSize(this, fontSizeFloat, "main_menu");
+        Utils.changeTextSize(this, textSizeFloat, "main_menu");
+        Utils.changeFontStyle(this, fontStyleStr, "main_menu");
         Utils.sTheme = themeStr;
         Utils.onActivityCreateSetTheme(this);
 

@@ -1,6 +1,7 @@
 package wclem12.com.agameofyou.story;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,13 +59,10 @@ public class StoryAdapter extends SimpleAdapter {
                     break;
             }
 
-            if (Utils.sTextSize == Utils.TEXTSIZE_MEDIUM) {
-                buttonText.setTextSize(TypedValue.COMPLEX_UNIT_SP, Utils.TEXTSIZE_MEDIUM);
-            } else if (Utils.sTextSize == Utils.TEXTSIZE_LARGE) {
-                buttonText.setTextSize(TypedValue.COMPLEX_UNIT_SP, Utils.TEXTSIZE_LARGE);
-            } else {
-                buttonText.setTextSize(TypedValue.COMPLEX_UNIT_SP, Utils.TEXTSIZE_SMALL);
-            }
+            buttonText.setTextSize(TypedValue.COMPLEX_UNIT_SP, Utils.sTextSize);
+
+            Typeface typeface = Typeface.createFromAsset(MainMenuActivity.CONTEXT_NAME.getAssets(), "fonts/" + Utils.sFontStyle);
+            buttonText.setTypeface(typeface, Typeface.BOLD);
 
             return view;
         }

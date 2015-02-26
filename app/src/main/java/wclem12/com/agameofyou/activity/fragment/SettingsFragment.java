@@ -48,13 +48,22 @@ public class SettingsFragment extends PreferenceFragment {
                 String fontSizeStr = String.valueOf(newValue.toString());
                 fontSizeFloat = Float.parseFloat(fontSizeStr);
 
-                if(fontSizeFloat == Utils.TEXTSIZE_SMALL) {
-                    Utils.changeTextSize(getActivity(), Utils.TEXTSIZE_SMALL, callingActivity);
-                } else if (fontSizeFloat == Utils.TEXTSIZE_MEDIUM) {
-                    Utils.changeTextSize(getActivity(), Utils.TEXTSIZE_MEDIUM, callingActivity);
-                } else if (fontSizeFloat == Utils.TEXTSIZE_LARGE) {
-                    Utils.changeTextSize(getActivity(), Utils.TEXTSIZE_LARGE, callingActivity);
-                }
+                Utils.changeTextSize(getActivity(), fontSizeFloat, callingActivity);
+
+                saveSettings();
+
+                return true;
+            }
+        });
+
+        //Add functionality to font style listpreference
+        final ListPreference fontStyle = (ListPreference) findPreference(getString(R.string.pref_font_style));
+        fontStyle.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                String fontStyleStr = String.valueOf(newValue.toString());
+
+                Utils.changeFontStyle(getActivity(), fontStyleStr, callingActivity);
 
                 saveSettings();
 
@@ -67,20 +76,9 @@ public class SettingsFragment extends PreferenceFragment {
         theme.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                //change theme of app
                 themeStr = String.valueOf(newValue.toString());
 
-                switch (themeStr) {
-                    case Utils.THEME_LIGHT:
-                        Utils.changeToTheme(getActivity(), Utils.THEME_LIGHT);
-                        break;
-                    case Utils.THEME_DARK:
-                        Utils.changeToTheme(getActivity(), Utils.THEME_DARK);
-                        break;
-                    case Utils.THEME_SEPIA:
-                        Utils.changeToTheme(getActivity(), Utils.THEME_SEPIA);
-                        break;
-                }
+                Utils.changeToTheme(getActivity(), themeStr);
 
                 saveSettings();
 
@@ -131,7 +129,8 @@ public class SettingsFragment extends PreferenceFragment {
         SharedPreferences settings = getActivity().getSharedPreferences(MainMenuActivity.PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString("theme", Utils.sTheme);
-        editor.putFloat("font", Utils.sTextSize);
+        editor.putFloat("textsize", Utils.sTextSize);
+        editor.putString("fontstyle", Utils.sFontStyle);
 
         // Commit edits
         editor.commit();

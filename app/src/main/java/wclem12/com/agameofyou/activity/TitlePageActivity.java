@@ -34,7 +34,7 @@ public class TitlePageActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_title_page, menu);
 
         return true;
     }
@@ -56,6 +56,9 @@ public class TitlePageActivity extends BaseActivity {
                 fragmentTransaction.replace(android.R.id.content, settingsFragment);
                 fragmentTransaction.addToBackStack("settings");
                 fragmentTransaction.commit();
+                return true;
+            case R.id.action_main_menu:
+                finish();
                 return true;
         }
 
