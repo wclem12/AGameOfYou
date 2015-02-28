@@ -7,9 +7,14 @@
     android:id="@+id/main_menu_layout"
     tools:context=".MainActivity">
 
-    <ListView
-        android:id="@android:id/list"
+    <GridView
+        android:id="@+id/main_grid"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"></ListView>
+        android:layout_height="wrap_content"></GridView>
+    <ListView
+        android:id="@+id/android:list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        />
 <!--android:id="@android:id/list"-->
 </LinearLayout>

@@ -41,7 +41,6 @@ public class Utils {
     public final static String FONTSTYLEBOLD_SOURCE_SANS_PRO = "SourceSansPro-Bold.otf";
     public final static String FONTSTYLEBOLD_TITILLIUM = "Titillium-Bold.otf";
 
-
     public static void changeTextSize(Activity activity, float textSize, String callingActivity) {
         sTextSize = textSize;
 

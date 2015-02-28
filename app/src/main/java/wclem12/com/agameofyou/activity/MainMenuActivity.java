@@ -9,8 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import org.xml.sax.InputSource;
@@ -20,7 +19,6 @@ import org.xml.sax.XMLReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -30,6 +28,7 @@ import javax.xml.parsers.SAXParserFactory;
 import wclem12.com.agameofyou.R;
 import wclem12.com.agameofyou.activity.fragment.SettingsFragment;
 import wclem12.com.agameofyou.menu.MenuAdapter;
+import wclem12.com.agameofyou.menu.MenuItem;
 import wclem12.com.agameofyou.menu.MenuParserHandler;
 import wclem12.com.agameofyou.story.Story;
 import wclem12.com.agameofyou.story.StoryParserHandler;
@@ -39,15 +38,14 @@ public class MainMenuActivity extends BaseActivity {
     public static String PACKAGE_NAME;
     public static Context CONTEXT_NAME;
 
-    private static String KEY_TITLE;
-    private static String KEY_AUTHOR;
-    private static String KEY_XML_ID;
     private static String MANIFEST_FILENAME;
 
     public static Story story;
 
     public static final String PREFS_NAME = "settings";
     public static ParseMenuXML menuParser;
+
+    private static boolean isList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +66,8 @@ public class MainMenuActivity extends BaseActivity {
         Utils.sTheme = themeStr;
         Utils.onActivityCreateSetTheme(this);
 
+        isList = settings.getBoolean("isList", true);
+
         setContentView(R.layout.main_menu);
 
         /*
@@ -76,10 +76,6 @@ public class MainMenuActivity extends BaseActivity {
         PACKAGE_NAME = getApplicationContext().getPackageName();
         CONTEXT_NAME = getApplicationContext();
 
-        KEY_TITLE = getString(R.string.manifest_title_tag);
-        KEY_AUTHOR = getString(R.string.manifest_author_tag);
-        KEY_XML_ID = getString(R.string.manifest_xml_id_tag);
-
         MANIFEST_FILENAME = getString(R.string.manifest_filename);
 
         int resourceFilePath = getApplicationContext().getResources().getIdentifier(MANIFEST_FILENAME, "raw", PACKAGE_NAME);
@@ -87,6 +83,7 @@ public class MainMenuActivity extends BaseActivity {
         menuParser = new ParseMenuXML();
         menuParser.execute(inputStream);
 
+        /*
         if (!currentActivity.equals("main_menu")) {
             String currentStory = settings.getString("story", "");
 
@@ -110,12 +107,6 @@ public class MainMenuActivity extends BaseActivity {
                 }
             }
         }
-
-        /*
-        * TODO in future releases:
-        *-Saving progress for individual stories, much like Kindle does
-        *-Consider special customer adapter for Settings and other menu items a la CustomTextView to
-        * get the colors right.
         */
     }
 
@@ -123,7 +114,6 @@ public class MainMenuActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
         return true;
     }
 
@@ -139,9 +129,26 @@ public class MainMenuActivity extends BaseActivity {
                 fragmentTransaction.addToBackStack("settings");
                 fragmentTransaction.commit();
                 return true;
+            case R.id.action_layout:
+                setViewButton(item);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setViewButton(android.view.MenuItem menuItem) {
+        GridView menuItems = (GridView) findViewById(R.id.main_grid);
+
+        if (isList) {
+            menuItems.setNumColumns(3);
+            menuItem.setIcon(R.drawable.ic_view_as_list);
+        } else {
+            menuItems.setNumColumns(1);
+            menuItem.setIcon(R.drawable.ic_view_as_grid);
+        }
+
+        isList = !isList;
     }
 
     private class ParseMenuXML extends AsyncTask<InputStream, Void, Void> {
@@ -159,13 +166,14 @@ public class MainMenuActivity extends BaseActivity {
                 InputSource inputSource = new InputSource(inputStream);
                 xmlReader.parse(inputSource);
 
-                ArrayList<HashMap<String, String>> menuItemList = handler.getMenuItemsList();
+                ArrayList<MenuItem> menuItemList = handler.getMenuItemsList();
 
-                ListAdapter adapter = new MenuAdapter(CONTEXT_NAME, menuItemList, R.layout.menu_item, new String[]{KEY_TITLE, KEY_AUTHOR, KEY_XML_ID}, new int[]{R.id.title, R.id.author, R.id.xml_id});
+                MenuAdapter menuAdapter = new MenuAdapter(CONTEXT_NAME, R.layout.menu_item, menuItemList);
 
-                ListView listView = (ListView) findViewById(android.R.id.list);
-                listView.setAdapter(adapter);
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                GridView gridView = (GridView) findViewById(R.id.main_grid);
+                gridView.setNumColumns(1);
+                gridView.setAdapter(menuAdapter);
+                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         String xml_id = ((TextView) view.findViewById(R.id.xml_id)).getText().toString();
@@ -239,6 +247,7 @@ public class MainMenuActivity extends BaseActivity {
         SharedPreferences settings = getSharedPreferences(MainMenuActivity.PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString("activity", "main_menu");
+        editor.putBoolean("isList", isList);
 
         // Commit edits
         editor.commit();

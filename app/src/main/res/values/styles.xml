@@ -2,13 +2,6 @@
     <!-- Base application theme. -->
     <style name="Theme.Light" parent="android:Theme.Holo.Light.DarkActionBar">
         <item name="themeName">Theme.Light</item>
-        <!-- Customize your theme here. -->
-        <!--<item name="android:buttonStyle">@style/Theme.Light.Button</item>-->
-        <item name="android:textColor">#ff000000</item>
-    </style>
-
-    <style name="Theme.Light.Button" parent="android:Theme.Holo.Light.DarkActionBar">
-
         <item name="android:textColor">#ff000000</item>
     </style>
 

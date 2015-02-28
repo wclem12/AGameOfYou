@@ -77,6 +77,15 @@ public class StoryPageActivity extends BaseActivity {
                 //save settings
                 finish();
                 finish();
+
+                //Make main_menu be the current activity
+                SharedPreferences settings = getSharedPreferences(MainMenuActivity.PREFS_NAME, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("activity", "main_menu");
+
+                // Commit edits
+                editor.commit();
+
                 return true;
         }
 
@@ -130,7 +139,7 @@ public class StoryPageActivity extends BaseActivity {
             }
         });
 
-        saveSettings();
+//        saveSettings();
     }
 
     @Override

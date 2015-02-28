@@ -3,12 +3,13 @@
     <details>
         <title>This Is A Format Test</title>
         <author>Anonymous</author>
-        <create_date>2-16-2015</create_date>
-        <last_edit_date>2-16-2015</last_edit_date>
+        <create_date>2015-2-16</create_date>
+        <last_edit_date>2015-2-16</last_edit_date>
         <creator_username>usernameHere</creator_username>
         <unique_id>formattest</unique_id>
         <genre>Spec Lit.</genre>
         <tags></tags>
+        <cover></cover>
     </details>
     <content>
         <page_content>

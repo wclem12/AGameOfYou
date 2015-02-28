@@ -6,21 +6,24 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="10dp"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:id="@+id/title_layout">
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="125dp">
+        android:paddingBottom="135dp">
     </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/title_layout_rectangle"
+        android:paddingBottom="20sp">
         <TextView
             android:text="@string/title_page_title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="30dp"
+            android:paddingTop="20dp"
             android:paddingBottom="15dp"
             android:gravity="center"
             android:textSize="26sp"
@@ -63,7 +66,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="10sp"
-                    android:id="@+id/title_page_create_date"/>
+                    android:id="@+id/title_page_create_date"
+                    android:visibility="invisible"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -74,7 +78,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="10sp"
-                    android:id="@+id/title_page_last_edit_date"/>
+                    android:id="@+id/title_page_last_edit_date"
+                    android:visibility="invisible"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -98,7 +103,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:id="@+id/title_page_genre"/>
+                android:id="@+id/title_page_genre"
+                android:visibility="invisible"/>
         </LinearLayout>
         <ListView
             android:layout_width="wrap_content"

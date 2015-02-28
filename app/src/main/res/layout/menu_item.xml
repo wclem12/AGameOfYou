@@ -2,34 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="25dp"
+    android:paddingRight="25dp">
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="4dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp">
+        android:paddingRight="20dp">
+        <ImageView
+            android:layout_width="52dp"
+            android:layout_height="68dp"
+            android:id="@+id/coverImage"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:gravity="center">
         <!--Title Label-->
         <TextView
             android:id="@+id/title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:paddingLeft="10dp"
             android:textSize="18sp"/>
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="20dp"
-            android:layout_gravity="left">
+            android:orientation="horizontal">
             <!--Author Label-->
             <TextView
                 android:id="@+id/author"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textSize="14sp"/>
         </LinearLayout>
         <!--Xml ID Label-->
         <TextView
@@ -39,6 +48,4 @@
             android:textSize="0sp"
             android:visibility="invisible"/>
     </LinearLayout>
-
-
 </LinearLayout>

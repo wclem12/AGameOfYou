@@ -13,6 +13,7 @@ public class Story implements Serializable {
     private String unique_id = null;
     private String genre = null;
     private String tags = null;
+    private String cover = null;
 
     public StoryPage getStoryPage (int destination) {
         return storyPageList.get(destination);
@@ -88,5 +89,15 @@ public class Story implements Serializable {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public String getCover() { return cover; }
+
+    public void setCover(String cover) {
+        if(cover.equals(null) || cover.equals("")) {
+            cover = "book";
+        }
+
+        this.cover = cover;
     }
 }

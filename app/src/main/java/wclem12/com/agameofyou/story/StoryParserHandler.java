@@ -8,9 +8,6 @@ import java.util.ArrayList;
 
 import wclem12.com.agameofyou.R;
 import wclem12.com.agameofyou.activity.MainMenuActivity;
-import wclem12.com.agameofyou.story.PageButton;
-import wclem12.com.agameofyou.story.Story;
-import wclem12.com.agameofyou.story.StoryPage;
 
 public class StoryParserHandler extends DefaultHandler{
 
@@ -71,7 +68,9 @@ public class StoryParserHandler extends DefaultHandler{
             story.setUniqueID(currentValue);
         } else if (localName.equalsIgnoreCase(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.genre_tag))) {
             story.setGenre(currentValue);
-        } else if (localName.equalsIgnoreCase(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.story_tag))) {
+        } else if (localName.equalsIgnoreCase(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.cover_tag))) {
+            story.setCover(currentValue);
+    }   else if (localName.equalsIgnoreCase(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.story_tag))) {
             story.setStoryPageList(storyPageList);
         }
     }
