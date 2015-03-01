@@ -1,6 +1,5 @@
 package wclem12.com.agameofyou.activity;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import wclem12.com.agameofyou.R;
-import wclem12.com.agameofyou.activity.fragment.SettingsFragment;
 import wclem12.com.agameofyou.story.PageButton;
 import wclem12.com.agameofyou.story.Story;
 import wclem12.com.agameofyou.story.StoryAdapter;
@@ -57,16 +55,12 @@ public class StoryPageActivity extends BaseActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_settings:
-                Bundle bundle = new Bundle();
-                bundle.putString("activity", "story");
+                Bundle extra = new Bundle();
+                extra.putSerializable("Activity", "story");
 
-                SettingsFragment settingsFragment = new SettingsFragment();
-                settingsFragment.setArguments(bundle);
-
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(android.R.id.content, settingsFragment);
-                fragmentTransaction.addToBackStack("settings");
-                fragmentTransaction.commit();
+                Intent intent = new Intent(MainMenuActivity.CONTEXT_NAME, SettingsActivity.class);
+                intent.putExtra("extra", extra);
+                startActivity(intent);
                 return true;
             case R.id.action_restart:
                 //load page 1
@@ -74,7 +68,6 @@ public class StoryPageActivity extends BaseActivity {
                 //update saved settings
                 return true;
             case R.id.action_main_menu:
-                //save settings
                 finish();
                 finish();
 
@@ -84,7 +77,8 @@ public class StoryPageActivity extends BaseActivity {
                 editor.putString("activity", "main_menu");
 
                 // Commit edits
-                editor.commit();
+//                editor.commit();
+                editor.apply();
 
                 return true;
         }
@@ -155,6 +149,7 @@ public class StoryPageActivity extends BaseActivity {
         editor.putInt("page", currentPage);
 
         // Commit edits
-        editor.commit();
+//        editor.commit();
+        editor.apply();
     }
 }

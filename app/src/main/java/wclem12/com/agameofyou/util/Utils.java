@@ -16,7 +16,9 @@ public class Utils {
 
     public static float sTextSize = 18;
 
+    public final static float TEXTSIZE_SMALL = 14;
     public final static float TEXTSIZE_MEDIUM = 18;
+    public final static float TEXTSIZE_LARGE = 22;
 
     public static String sFontStyle = "Roboto-Regular.ttf";
     public static String sFontStyleBold = "Roboto-Bold.ttf";
@@ -48,8 +50,8 @@ public class Utils {
             CustomTextView storyPageText = (CustomTextView) activity.findViewById(R.id.story_page_text);
             CustomTextView storyPageButtonText = (CustomTextView) activity.findViewById(R.id.story_page_button_text);
 
-            storyPageText.setTextSize(sTextSize);
-            if(storyPageButtonText != null) {
+            if(storyPageButtonText != null && storyPageText != null) {
+                storyPageText.setTextSize(sTextSize);
                 storyPageButtonText.setTextSize(sTextSize);
             }
         }
@@ -95,9 +97,8 @@ public class Utils {
 
             Typeface typeface = Typeface.createFromAsset(activity.getAssets(), "fonts/" + sFontStyle);
 
-            storyPageText.setTypeface(typeface);
-
-            if (storyPageButtonText != null) {
+            if (storyPageButtonText != null && storyPageText != null) {
+                storyPageText.setTypeface(typeface);
                 storyPageButtonText.setTypeface(typeface, Typeface.BOLD);
             }
         }

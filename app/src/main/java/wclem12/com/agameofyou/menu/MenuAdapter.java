@@ -45,22 +45,24 @@ public class MenuAdapter extends ArrayAdapter<MenuItem> {
             author.setText(menuItem.getAuthor());
             xml_id.setText(menuItem.getXmlID());
 
+            int color = 0;
+
             //set color for these texts
             switch (Utils.sTheme) {
                 default:
                 case Utils.THEME_LIGHT:
-                    title.setTextColor(MainMenuActivity.CONTEXT_NAME.getResources().getColor(android.R.color.primary_text_light));
-                    author.setTextColor(MainMenuActivity.CONTEXT_NAME.getResources().getColor(android.R.color.primary_text_light));
+                    color = MainMenuActivity.CONTEXT_NAME.getResources().getColor(android.R.color.primary_text_light);
                     break;
                 case Utils.THEME_DARK:
-                    title.setTextColor(MainMenuActivity.CONTEXT_NAME.getResources().getColor(android.R.color.primary_text_dark));
-                    author.setTextColor(MainMenuActivity.CONTEXT_NAME.getResources().getColor(android.R.color.primary_text_dark));
+                    color = MainMenuActivity.CONTEXT_NAME.getResources().getColor(android.R.color.primary_text_dark);
                     break;
                 case Utils.THEME_SEPIA:
-                    title.setTextColor(MainMenuActivity.CONTEXT_NAME.getResources().getColor(R.color.sepia_dark));
-                    author.setTextColor(MainMenuActivity.CONTEXT_NAME.getResources().getColor(R.color.sepia_dark));
+                    color = MainMenuActivity.CONTEXT_NAME.getResources().getColor(R.color.sepia_dark);
                     break;
             }
+
+            setTextColor(title, color);
+            setTextColor(author, color);
 
             //retrieve cover filename and set cover
             String coverStr = menuItem.getCover();
@@ -68,6 +70,10 @@ public class MenuAdapter extends ArrayAdapter<MenuItem> {
         }
 
         return view;
+    }
+
+    private void setTextColor (TextView textView, int color) {
+        textView.setTextColor(color);
     }
 
     public int getImageId (String imageName) {

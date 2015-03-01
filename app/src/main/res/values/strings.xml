@@ -86,6 +86,12 @@
     <!--                    ***************************************                  -->
     <string name="next_page_text">Default Text</string>
 
+    <!--                    ***************************************                  -->
+    <!--                    *         About Story Page            *                  -->
+    <!--                    ***************************************                  -->
+    <string name="about_story_page_tag">Tag</string>
+    <string name="about_story_page_data">Data</string>
+
     <string name="pref_text_size">Text Size</string>
 
     <string name="action_settings">Settings</string>

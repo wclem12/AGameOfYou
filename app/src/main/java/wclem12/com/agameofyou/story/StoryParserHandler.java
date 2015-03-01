@@ -19,7 +19,6 @@ public class StoryParserHandler extends DefaultHandler{
     private PageButton pageButton = null;
     private ArrayList<StoryPage> storyPageList = new ArrayList<StoryPage>();
 
-
     public Story getStory() { return story;}
 
     @Override
@@ -68,6 +67,8 @@ public class StoryParserHandler extends DefaultHandler{
             story.setUniqueID(currentValue);
         } else if (localName.equalsIgnoreCase(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.genre_tag))) {
             story.setGenre(currentValue);
+        } else if (localName.equalsIgnoreCase(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.tags_tag))) {
+            story.setTags(currentValue);
         } else if (localName.equalsIgnoreCase(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.cover_tag))) {
             story.setCover(currentValue);
     }   else if (localName.equalsIgnoreCase(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.story_tag))) {

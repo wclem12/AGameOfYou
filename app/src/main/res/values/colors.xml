@@ -3,4 +3,10 @@
     <color name="sepia_dark">#5F4B32</color>
     <color name="sepia_light">#FBF0D9</color>
     <color name="sepia_med">#A6967E</color>
+
+    <color name="light_text">#303030</color>
+    <color name="light_background">#FFF3F3F3</color>
+
+    <color name="dark_text">#F0F0F0</color>
+    <color name="dark_background">#FF000000</color>
 </resources>

@@ -1,7 +1,6 @@
 package wclem12.com.agameofyou.activity;
 
 import android.annotation.TargetApi;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import wclem12.com.agameofyou.R;
-import wclem12.com.agameofyou.activity.fragment.SettingsFragment;
 import wclem12.com.agameofyou.story.Story;
 
 public class TitlePageActivity extends BaseActivity {
@@ -27,7 +25,7 @@ public class TitlePageActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         //pass this onto StoryPageActivity
-        Intent intent = getIntent();
+//        Intent intent = getIntent();
         Bundle extra = getIntent().getBundleExtra("extra");
         story = (Story) extra.getSerializable("Story");
 
@@ -49,18 +47,15 @@ public class TitlePageActivity extends BaseActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        Bundle extra = new Bundle();
+        Intent intent;
+
         switch (item.getItemId()) {
             case R.id.action_settings:
-                Bundle bundle = new Bundle();
-                bundle.putString("activity", "title");
-
-                SettingsFragment settingsFragment = new SettingsFragment();
-                settingsFragment.setArguments(bundle);
-
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(android.R.id.content, settingsFragment);
-                fragmentTransaction.addToBackStack("settings");
-                fragmentTransaction.commit();
+                extra.putSerializable("Activity", "title");
+                intent = new Intent(MainMenuActivity.CONTEXT_NAME, SettingsActivity.class);
+                intent.putExtra("extra", extra);
+                startActivity(intent);
                 return true;
             case R.id.action_main_menu:
                 finish();
@@ -68,11 +63,20 @@ public class TitlePageActivity extends BaseActivity {
                 //Make main_menu be the current activity
                 SharedPreferences settings = getSharedPreferences(MainMenuActivity.PREFS_NAME, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = settings.edit();
-                editor.putString("activity", "main_menu");
+                editor.putString("Activity", "main_menu");
 
                 // Commit edits
-                editor.commit();
+//                editor.commit();
+                editor.apply();
                 return true;
+            case R.id.action_about:
+                extra.putSerializable("Story", story);
+
+                intent = new Intent(MainMenuActivity.CONTEXT_NAME, AboutStoryActivity.class);
+                intent.putExtra("extra", extra);
+
+                startActivity(intent);
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -95,20 +99,6 @@ public class TitlePageActivity extends BaseActivity {
 
         //establish background color of rectangle
         setRectangleBackground();
-
-        /*
-        TextView create_date = (TextView) findViewById(R.id.title_page_create_date);
-        create_date.setText("Created: " + story.getCreateDate());
-
-        TextView last_edit_date = (TextView) findViewById(R.id.title_page_last_edit_date);
-        last_edit_date.setText("Last Updated: " + story.getLastEditDate());
-
-        TextView creator_username = (TextView) findViewById(R.id.title_page_creator_username);
-        creator_username.setText("Created By: " + story.getCreatorUsername());
-
-        TextView genre = (TextView) findViewById(R.id.title_page_genre);
-        genre.setText(story.getGenre());
-        */
 
         TextView creator_username = (TextView) findViewById(R.id.title_page_creator_username);
         String edit_date =  story.getLastEditDate();

@@ -1,6 +1,5 @@
 package wclem12.com.agameofyou.activity;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,7 +25,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import wclem12.com.agameofyou.R;
-import wclem12.com.agameofyou.activity.fragment.SettingsFragment;
 import wclem12.com.agameofyou.menu.MenuAdapter;
 import wclem12.com.agameofyou.menu.MenuItem;
 import wclem12.com.agameofyou.menu.MenuParserHandler;
@@ -55,7 +53,7 @@ public class MainMenuActivity extends BaseActivity {
          * Establish shared prefs
          */
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        String currentActivity = settings.getString("activity", "");
+        String currentActivity = settings.getString("Activity", "");
 
         float textSizeFloat = settings.getFloat("textsize", Utils.TEXTSIZE_MEDIUM);
         String fontStyleStr = settings.getString("fontstyle", Utils.FONTSTYLE_ROBOTO);
@@ -124,10 +122,12 @@ public class MainMenuActivity extends BaseActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_settings:
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(android.R.id.content, new SettingsFragment());
-                fragmentTransaction.addToBackStack("settings");
-                fragmentTransaction.commit();
+                Bundle extra = new Bundle();
+                extra.putSerializable("Activity", "main_menu");
+
+                Intent intent = new Intent(MainMenuActivity.CONTEXT_NAME, SettingsActivity.class);
+                intent.putExtra("extra", extra);
+                startActivity(intent);
                 return true;
             case R.id.action_layout:
                 setViewButton(item);
