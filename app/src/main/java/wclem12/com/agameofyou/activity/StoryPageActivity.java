@@ -74,7 +74,7 @@ public class StoryPageActivity extends BaseActivity {
                 //Make main_menu be the current activity
                 SharedPreferences settings = getSharedPreferences(MainMenuActivity.PREFS_NAME, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = settings.edit();
-                editor.putString("activity", "main_menu");
+                editor.putString("Activity", "main_menu");
 
                 // Commit edits
 //                editor.commit();
@@ -144,9 +144,9 @@ public class StoryPageActivity extends BaseActivity {
     private void saveSettings() {
         SharedPreferences settings = getSharedPreferences(MainMenuActivity.PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString("activity", "story_page");
-        editor.putString("story", story.getUniqueID());
-        editor.putInt("page", currentPage);
+        editor.putString("Activity", "story_page");
+        editor.putString("Story", story.getUniqueID());
+        editor.putInt("Page", currentPage);
 
         // Commit edits
 //        editor.commit();

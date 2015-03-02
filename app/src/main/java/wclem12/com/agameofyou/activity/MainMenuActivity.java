@@ -83,7 +83,7 @@ public class MainMenuActivity extends BaseActivity {
 
         /*
         if (!currentActivity.equals("main_menu")) {
-            String currentStory = settings.getString("story", "");
+            String currentStory = settings.getString("Story", "");
 
             if (!currentStory.equals("")) {
                 if (currentActivity.equals("title_page")) {
@@ -91,7 +91,7 @@ public class MainMenuActivity extends BaseActivity {
                     menuParser.loadStory(currentStory);
 
                 } else if (currentActivity.equals("story_page")) {
-                    int currentPage = settings.getInt("page", 1);
+                    int currentPage = settings.getInt("Page", 1);
                     menuParser.loadStory(currentStory);
 
                     //load StoryPageActivity intent, starting with page 1
