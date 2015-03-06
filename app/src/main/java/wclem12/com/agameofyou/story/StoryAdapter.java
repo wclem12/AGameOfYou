@@ -3,6 +3,7 @@ package wclem12.com.agameofyou.story;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SimpleAdapter;
@@ -25,6 +26,7 @@ public class StoryAdapter extends SimpleAdapter {
             View view = super.getView(position, convertView, parent);
 
             TextView buttonText = (TextView) view.findViewById(R.id.story_page_button_text);
+            TextView destination = (TextView) view.findViewById(R.id.story_page_button_destination);
 
             switch (Utils.sTheme) {
                 default:
@@ -42,7 +44,17 @@ public class StoryAdapter extends SimpleAdapter {
             buttonText.setTextSize(TypedValue.COMPLEX_UNIT_SP, Utils.sTextSize);
 
             Typeface typeface = Typeface.createFromAsset(MainMenuActivity.CONTEXT_NAME.getAssets(), "fonts/" + Utils.sFontStyle);
-            buttonText.setTypeface(typeface, Typeface.BOLD);
+
+            if(destination.getText().equals("-1")) {
+                view.setEnabled(false);
+                view.setOnClickListener(null);
+
+                buttonText.setTypeface(typeface);
+                buttonText.setGravity(Gravity.NO_GRAVITY);
+            } else {
+                buttonText.setTypeface(typeface, Typeface.BOLD);
+                buttonText.setGravity(Gravity.CENTER);
+            }
 
             return view;
         }

@@ -16,7 +16,7 @@ public class StoryParserHandler extends DefaultHandler{
 
     private Story story = null;
     private StoryPage storyPage = null;
-    private PageButton pageButton = null;
+    private StoryPageChoice storyPageChoice = null;
     private ArrayList<StoryPage> storyPageList = new ArrayList<StoryPage>();
 
     public Story getStory() { return story;}
@@ -31,7 +31,7 @@ public class StoryParserHandler extends DefaultHandler{
         } else if (localName.equals(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.page_content_tag))) {
             storyPage = new StoryPage();
         } else if (localName.equals(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.button_tag))) {
-            pageButton = new PageButton();
+            storyPageChoice = new StoryPageChoice();
         }
     }
 
@@ -46,11 +46,11 @@ public class StoryParserHandler extends DefaultHandler{
         } else if (localName.equalsIgnoreCase(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.page_text_tag))) {
             storyPage.setText(currentValue);
         } else if (localName.equalsIgnoreCase(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.button_destination_tag))) {
-            pageButton.setDestination(Integer.parseInt(currentValue));
+            storyPageChoice.setDestination(Integer.parseInt(currentValue));
         } else if (localName.equalsIgnoreCase(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.button_text_tag))) {
-            pageButton.setText(currentValue);
+            storyPageChoice.setText(currentValue);
         } else if (localName.equalsIgnoreCase(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.button_tag))) {
-            storyPage.addButton(pageButton);
+            storyPage.addButton(storyPageChoice);
         } else if (localName.equalsIgnoreCase(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.page_content_tag))) {
             storyPageList.add(storyPage);
         } else if (localName.equalsIgnoreCase(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.title_tag))) {
@@ -63,15 +63,15 @@ public class StoryParserHandler extends DefaultHandler{
             story.setLastEditDate(currentValue);
         } else if (localName.equalsIgnoreCase(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.creator_username_tag))) {
             story.setCreatorUsername(currentValue);
-        } else if (localName.equalsIgnoreCase(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.unique_id_tag))) {
-            story.setUniqueID(currentValue);
         } else if (localName.equalsIgnoreCase(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.genre_tag))) {
             story.setGenre(currentValue);
         } else if (localName.equalsIgnoreCase(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.tags_tag))) {
             story.setTags(currentValue);
         } else if (localName.equalsIgnoreCase(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.cover_tag))) {
             story.setCover(currentValue);
-    }   else if (localName.equalsIgnoreCase(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.story_tag))) {
+        } else if (localName.equalsIgnoreCase(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.unique_id_tag))) {
+            story.setId(currentValue);
+        }else if (localName.equalsIgnoreCase(MainMenuActivity.CONTEXT_NAME.getResources().getString(R.string.story_tag))) {
             story.setStoryPageList(storyPageList);
         }
     }

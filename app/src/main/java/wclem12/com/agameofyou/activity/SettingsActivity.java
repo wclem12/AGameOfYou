@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import wclem12.com.agameofyou.CustomTextView;
 import wclem12.com.agameofyou.R;
 import wclem12.com.agameofyou.util.Utils;
 
@@ -87,7 +88,7 @@ public class SettingsActivity extends BaseActivity {
                                 break;
                         }
 
-                        Utils.changeTextSize(activity, textSizeFloat, callingActivity);
+                        Utils.changeTextSize(textSizeFloat);
                         textSizePos = position;
 
                         saveSettings();
@@ -145,7 +146,7 @@ public class SettingsActivity extends BaseActivity {
                                 break;
                         }
 
-                        Utils.changeFontStyle(activity, fontStyleStr, callingActivity);
+                        Utils.changeFontStyle(fontStyleStr);
                         fontStylePos = position;
 
                         saveSettings();
@@ -383,6 +384,18 @@ public class SettingsActivity extends BaseActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        if(callingActivity.equals(Utils.ACTIVITY_STORY)){
+            CustomTextView storyPageButtonDestination = (CustomTextView) activity.findViewById(R.id.story_page_button_destination);
+            CustomTextView storyPageButtonText = (CustomTextView) activity.findViewById(R.id.story_page_button_text);
+
+            Utils.ChangeStoryText(this, storyPageButtonDestination, storyPageButtonText);
+        }
+
+        super.onBackPressed();
+    }
+
+    @Override
     public void onStop() {
         getActionBar().setDisplayHomeAsUpEnabled(false);
 
@@ -402,8 +415,6 @@ public class SettingsActivity extends BaseActivity {
         editor.putInt("themePos", themePos);
 
         // Commit edits
-//       editor.commit();
         editor.apply();
     }
-
 }

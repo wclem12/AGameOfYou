@@ -1,11 +1,14 @@
 package wclem12.com.agameofyou.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 
 import wclem12.com.agameofyou.CustomTextView;
 import wclem12.com.agameofyou.R;
+import wclem12.com.agameofyou.activity.MainMenuActivity;
 
 public class Utils {
     public static String sTheme = "Theme.Light";
@@ -43,21 +46,15 @@ public class Utils {
     public final static String FONTSTYLEBOLD_SOURCE_SANS_PRO = "SourceSansPro-Bold.otf";
     public final static String FONTSTYLEBOLD_TITILLIUM = "Titillium-Bold.otf";
 
-    public static void changeTextSize(Activity activity, float textSize, String callingActivity) {
+    public final static String ACTIVITY_MAIN = "main_menu";
+    public final static String ACTIVITY_TITLE = "title_page";
+    public final static String ACTIVITY_STORY = "story_page";
+
+    public static void changeTextSize(float textSize) {
         sTextSize = textSize;
-
-        if(callingActivity.equals("story")) {
-            CustomTextView storyPageText = (CustomTextView) activity.findViewById(R.id.story_page_text);
-            CustomTextView storyPageButtonText = (CustomTextView) activity.findViewById(R.id.story_page_button_text);
-
-            if(storyPageButtonText != null && storyPageText != null) {
-                storyPageText.setTextSize(sTextSize);
-                storyPageButtonText.setTextSize(sTextSize);
-            }
-        }
     }
 
-    public static void changeFontStyle(Activity activity, String fontStyle, String callingActivity) {
+    public static void changeFontStyle(String fontStyle) {
         switch (fontStyle) {
             default:
             case FONTSTYLE_CAVIAR_DREAMS:
@@ -90,18 +87,6 @@ public class Utils {
         }
 
         sFontStyle = fontStyle;
-
-        if(callingActivity.equals("story")) {
-            CustomTextView storyPageText = (CustomTextView) activity.findViewById(R.id.story_page_text);
-            CustomTextView storyPageButtonText = (CustomTextView) activity.findViewById(R.id.story_page_button_text);
-
-            Typeface typeface = Typeface.createFromAsset(activity.getAssets(), "fonts/" + sFontStyle);
-
-            if (storyPageButtonText != null && storyPageText != null) {
-                storyPageText.setTypeface(typeface);
-                storyPageButtonText.setTypeface(typeface, Typeface.BOLD);
-            }
-        }
     }
 
     public static void changeToTheme(Activity activity, String theme){
@@ -124,6 +109,44 @@ public class Utils {
             case THEME_SEPIA:
                 activity.setTheme(R.style.Theme_Sepia);
                 break;
+        }
+    }
+
+    public static void SaveSettings(String activityName, String storyId, int pageNumber) {
+        SharedPreferences settings = MainMenuActivity.CONTEXT_NAME.getSharedPreferences(MainMenuActivity.PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+
+        editor.putString("Activity", activityName);
+
+        if (activityName.equals(ACTIVITY_MAIN)) {
+            editor.putBoolean("isList", MainMenuActivity.isList);
+        }
+
+        if(storyId != null && !storyId.isEmpty()) {
+            editor.putString("Story", storyId);
+        }
+
+        if(pageNumber != -1) {
+            editor.putInt("Page", pageNumber);
+        }
+
+        // Commit edits
+        editor.apply();
+    }
+
+    public static void ChangeStoryText(Activity activity, CustomTextView storyPageButtonDestination, CustomTextView storyPageButtonText) {
+        Typeface typeface = Typeface.createFromAsset(activity.getAssets(), "fonts/" + sFontStyle);
+
+        if(storyPageButtonText != null && storyPageButtonDestination != null) {
+            //change textsize to match preferences
+            storyPageButtonText.setTextSize(sTextSize);
+
+            //change typeface to match preferences
+            if(storyPageButtonDestination.getText().equals("-1")) {
+                storyPageButtonText.setTypeface(typeface);
+            } else {
+                storyPageButtonText.setTypeface(typeface, Typeface.BOLD);
+            }
         }
     }
 }

@@ -5,15 +5,23 @@ import java.util.ArrayList;
 
 public class Story implements Serializable {
     private ArrayList<StoryPage> storyPageList = new ArrayList<StoryPage>();
+    private String id = null;
     private String title = null;
     private String author = null;
     private String create_date = null;
     private String last_edit_date = null;
     private String creator_username = null;
-    private String unique_id = null;
     private String genre = null;
     private String tags = null;
     private String cover = null;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public StoryPage getStoryPage (int destination) {
         return storyPageList.get(destination);
@@ -65,14 +73,6 @@ public class Story implements Serializable {
 
     public void setCreatorUsername(String creator_username) {
         this.creator_username = creator_username;
-    }
-
-    public String getUniqueID() {
-        return unique_id;
-    }
-
-    public void setUniqueID(String unique_id) {
-        this.unique_id = unique_id;
     }
 
     public String getGenre() {

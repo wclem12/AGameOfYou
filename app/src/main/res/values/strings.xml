@@ -103,5 +103,6 @@
     <string name="pref_font_style">pref_font_style</string>
     <string name="action_about">About</string>
     <string name="action_view">View</string>
+    <string name="app_version">version</string>
 
 </resources>

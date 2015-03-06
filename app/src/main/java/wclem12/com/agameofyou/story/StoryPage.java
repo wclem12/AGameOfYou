@@ -3,13 +3,16 @@ package wclem12.com.agameofyou.story;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import wclem12.com.agameofyou.story.PageButton;
-
 public class StoryPage implements Serializable {
+    private int id = -1;
     private String type = null;
     private int page_number = -1;
     private String text = null;
-    private ArrayList<PageButton> buttonList = new ArrayList<PageButton>();
+    private ArrayList<StoryPageChoice> buttonList = new ArrayList<StoryPageChoice>();
+
+    public int getId() { return id; }
+
+    public void setId(int id) { this.id = id; }
 
     public String getType() {
         return type;
@@ -35,11 +38,11 @@ public class StoryPage implements Serializable {
         this.text = text;
     }
 
-    public ArrayList<PageButton> getButtonList() {
+    public ArrayList<StoryPageChoice> getButtonList() {
         return buttonList;
     }
 
-    public void addButton (PageButton button) {
+    public void addButton (StoryPageChoice button) {
         buttonList.add(button);
     }
 

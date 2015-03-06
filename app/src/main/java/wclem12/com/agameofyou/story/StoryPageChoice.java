@@ -2,9 +2,14 @@ package wclem12.com.agameofyou.story;
 
 import java.io.Serializable;
 
-public class PageButton implements Serializable {
+public class StoryPageChoice implements Serializable {
+    private int id = -1;
     private int destination = -1;
     private String text = null;
+
+    public int getId() { return id; }
+
+    public void setId(int id) { this.id = id; }
 
     public int getDestination() {
         return destination;

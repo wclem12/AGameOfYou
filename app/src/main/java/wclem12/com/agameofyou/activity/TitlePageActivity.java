@@ -1,8 +1,6 @@
 package wclem12.com.agameofyou.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -12,6 +10,7 @@ import android.widget.TextView;
 
 import wclem12.com.agameofyou.R;
 import wclem12.com.agameofyou.story.Story;
+import wclem12.com.agameofyou.util.Utils;
 
 public class TitlePageActivity extends BaseActivity {
     private Story story;
@@ -21,13 +20,12 @@ public class TitlePageActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         //pass this onto StoryPageActivity
-//        Intent intent = getIntent();
         Bundle extra = getIntent().getBundleExtra("extra");
         story = (Story) extra.getSerializable("Story");
 
         loadTitlePage();
 
-//        saveSettings();
+        Utils.SaveSettings(Utils.ACTIVITY_TITLE, story.getId(), -1);
     }
 
     @Override
@@ -48,31 +46,27 @@ public class TitlePageActivity extends BaseActivity {
 
         switch (item.getItemId()) {
             case R.id.action_settings:
-                extra.putSerializable("Activity", "title");
+                extra.putSerializable("Activity", Utils.ACTIVITY_TITLE);
                 intent = new Intent(MainMenuActivity.CONTEXT_NAME, SettingsActivity.class);
                 intent.putExtra("extra", extra);
                 startActivity(intent);
                 return true;
             case R.id.action_main_menu:
                 finish();
-
-                //Make main_menu be the current activity
-                SharedPreferences settings = getSharedPreferences(MainMenuActivity.PREFS_NAME, Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putString("Activity", "main_menu");
-
-                // Commit edits
-//                editor.commit();
-                editor.apply();
+                Utils.SaveSettings(Utils.ACTIVITY_MAIN, null, -1);
                 return true;
-            case R.id.action_about:
+            case R.id.action_story_about:
                 extra.putSerializable("Story", story);
 
                 intent = new Intent(MainMenuActivity.CONTEXT_NAME, AboutStoryActivity.class);
                 intent.putExtra("extra", extra);
 
                 startActivity(intent);
-
+                return true;
+            case R.id.action_about:
+                intent = new Intent(MainMenuActivity.CONTEXT_NAME, AboutActivity.class);
+                startActivity(intent);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -115,17 +109,9 @@ public class TitlePageActivity extends BaseActivity {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-    }
+    public void onBackPressed() {
+        Utils.SaveSettings(Utils.ACTIVITY_MAIN, null, -1);
 
-    private void saveSettings() {
-        SharedPreferences settings = getSharedPreferences(MainMenuActivity.PREFS_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("Activity", "title_page");
-        editor.putString("Story", story.getUniqueID());
-
-        // Commit edits
-        editor.commit();
+        super.onBackPressed();
     }
 }

@@ -35,102 +35,106 @@ import wclem12.com.agameofyou.util.Utils;
 public class MainMenuActivity extends BaseActivity {
     public static String PACKAGE_NAME;
     public static Context CONTEXT_NAME;
-
-    private static String MANIFEST_FILENAME;
-
     public static Story story;
-
-    public static final String PREFS_NAME = "settings";
+    public static SharedPreferences settings;
+    public static boolean isList;
     public static ParseMenuXML menuParser;
 
-    private static boolean isList;
+    private GridView menuItems;
+
+    public static final String PREFS_NAME = "settings";
+
+    private static final String MANIFEST_FILENAME = "story_manifest";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*
-         * Establish shared prefs
-         */
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        String currentActivity = settings.getString("Activity", "");
-
-        float textSizeFloat = settings.getFloat("textsize", Utils.TEXTSIZE_MEDIUM);
-        String fontStyleStr = settings.getString("fontstyle", Utils.FONTSTYLE_ROBOTO);
-        String themeStr = settings.getString("theme", Utils.THEME_LIGHT);
-
-        Utils.changeTextSize(this, textSizeFloat, "main_menu");
-        Utils.changeFontStyle(this, fontStyleStr, "main_menu");
-        Utils.sTheme = themeStr;
-        Utils.onActivityCreateSetTheme(this);
-
-        isList = settings.getBoolean("isList", true);
-
-        setContentView(R.layout.main_menu);
-
-        /*
-         * Load XML Menu
-         */
         PACKAGE_NAME = getApplicationContext().getPackageName();
         CONTEXT_NAME = getApplicationContext();
 
-        MANIFEST_FILENAME = getString(R.string.manifest_filename);
+        loadSettings();
+    }
 
+    /**
+     * Load shared prefs
+     */
+    private void loadSettings() {
+        settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
+        String currentActivity = settings.getString("Activity", Utils.ACTIVITY_MAIN);
+
+        float textSizeFloat = settings.getFloat("textsize", Utils.TEXTSIZE_MEDIUM);
+        String fontStyleStr = settings.getString("fontstyle", Utils.FONTSTYLE_ROBOTO);
+        Utils.sTheme = settings.getString("theme", Utils.THEME_LIGHT);
+        isList = settings.getBoolean("isList", true);
+
+        Utils.changeTextSize(textSizeFloat);
+        Utils.changeFontStyle(fontStyleStr);
+        Utils.onActivityCreateSetTheme(this);
+
+        setContentView(R.layout.main_menu);
+
+        loadData();
+
+        if (!currentActivity.equals(Utils.ACTIVITY_MAIN)) {
+            String currentStory = settings.getString("Story", "");
+
+            if (currentStory != null && !currentStory.isEmpty()) {
+                if (currentActivity.equals(Utils.ACTIVITY_TITLE)) {
+                    //load title page
+                    menuParser.loadStory(currentStory);
+
+                } else if (currentActivity.equals(Utils.ACTIVITY_STORY)) {
+                    int currentPage = settings.getInt("Page", 1);
+                    menuParser.loadStory(currentStory, currentPage);
+                }
+            }
+        }
+    }
+
+    /**
+     * Load xml data
+     */
+    private void loadData() {
         int resourceFilePath = getApplicationContext().getResources().getIdentifier(MANIFEST_FILENAME, "raw", PACKAGE_NAME);
         InputStream inputStream = getResources().openRawResource(resourceFilePath);
         menuParser = new ParseMenuXML();
         menuParser.execute(inputStream);
-
-        /*
-        if (!currentActivity.equals("main_menu")) {
-            String currentStory = settings.getString("Story", "");
-
-            if (!currentStory.equals("")) {
-                if (currentActivity.equals("title_page")) {
-                    //load title page
-                    menuParser.loadStory(currentStory);
-
-                } else if (currentActivity.equals("story_page")) {
-                    int currentPage = settings.getInt("Page", 1);
-                    menuParser.loadStory(currentStory);
-
-                    //load StoryPageActivity intent, starting with page 1
-                    Bundle extra = new Bundle();
-                    extra.putSerializable("Story", story);
-                    extra.putSerializable("Page", currentPage);
-
-                    Intent intent = new Intent(MainMenuActivity.CONTEXT_NAME, StoryPageActivity.class);
-                    intent.putExtra("extra", extra);
-                    startActivity(intent);
-                }
-            }
-        }
-        */
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        if (!isList) {
+            menu.findItem(R.id.action_layout).setIcon(R.drawable.ic_view_as_list);
+        } else {
+            menu.findItem(R.id.action_layout).setIcon(R.drawable.ic_view_as_grid);
+        }
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        Intent intent;
+
         switch (item.getItemId()) {
             case R.id.action_settings:
                 Bundle extra = new Bundle();
-                extra.putSerializable("Activity", "main_menu");
+                extra.putSerializable("Activity", Utils.ACTIVITY_MAIN);
 
-                Intent intent = new Intent(MainMenuActivity.CONTEXT_NAME, SettingsActivity.class);
+                intent = new Intent(MainMenuActivity.CONTEXT_NAME, SettingsActivity.class);
                 intent.putExtra("extra", extra);
                 startActivity(intent);
                 return true;
             case R.id.action_layout:
                 setViewButton(item);
+                return true;
+            case R.id.action_about:
+                intent = new Intent(MainMenuActivity.CONTEXT_NAME, AboutActivity.class);
+                startActivity(intent);
                 return true;
         }
 
@@ -138,8 +142,6 @@ public class MainMenuActivity extends BaseActivity {
     }
 
     private void setViewButton(android.view.MenuItem menuItem) {
-        GridView menuItems = (GridView) findViewById(R.id.main_grid);
-
         if (isList) {
             menuItems.setNumColumns(3);
             menuItem.setIcon(R.drawable.ic_view_as_list);
@@ -149,6 +151,15 @@ public class MainMenuActivity extends BaseActivity {
         }
 
         isList = !isList;
+
+        Utils.SaveSettings(Utils.ACTIVITY_MAIN, null, -1);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Utils.SaveSettings(Utils.ACTIVITY_MAIN, null, -1);
+
+        super.onBackPressed();
     }
 
     private class ParseMenuXML extends AsyncTask<InputStream, Void, Void> {
@@ -170,10 +181,10 @@ public class MainMenuActivity extends BaseActivity {
 
                 MenuAdapter menuAdapter = new MenuAdapter(CONTEXT_NAME, R.layout.menu_item, menuItemList);
 
-                GridView gridView = (GridView) findViewById(R.id.main_grid);
-                gridView.setNumColumns(1);
-                gridView.setAdapter(menuAdapter);
-                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                menuItems = (GridView) findViewById(R.id.main_grid);
+                menuItems.setNumColumns(1);
+                menuItems.setAdapter(menuAdapter);
+                menuItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         String xml_id = ((TextView) view.findViewById(R.id.xml_id)).getText().toString();
@@ -181,6 +192,11 @@ public class MainMenuActivity extends BaseActivity {
                     }
                 });
 
+                if (!isList) {
+                    menuItems.setNumColumns(3);
+                } else {
+                    menuItems.setNumColumns(1);
+                }
             } catch (ParserConfigurationException e) {
                 e.printStackTrace();
             } catch (SAXException e) {
@@ -205,6 +221,28 @@ public class MainMenuActivity extends BaseActivity {
                 Intent intent = new Intent(CONTEXT_NAME, TitlePageActivity.class);
                 intent.putExtra("extra", extra);
                 startActivity(intent);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void loadStory(String xml_id, int currentPage){
+            try {
+                int resourceFilePath = getApplicationContext().getResources().getIdentifier(xml_id, "raw", PACKAGE_NAME);
+                InputStream inputStream = getResources().openRawResource(resourceFilePath);
+
+                story = new ParseStoryXML().execute(inputStream).get();
+
+                Bundle extra = new Bundle();
+                extra.putSerializable("Story", story);
+                extra.putSerializable("Page", currentPage);
+
+                Intent intent = new Intent(MainMenuActivity.CONTEXT_NAME, StoryPageActivity.class);
+                intent.putExtra("extra", extra);
+                startActivity(intent);
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
@@ -241,15 +279,5 @@ public class MainMenuActivity extends BaseActivity {
 
             return story;
         }
-    }
-
-    private void saveSettings() {
-        SharedPreferences settings = getSharedPreferences(MainMenuActivity.PREFS_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("activity", "main_menu");
-        editor.putBoolean("isList", isList);
-
-        // Commit edits
-        editor.commit();
     }
 }
