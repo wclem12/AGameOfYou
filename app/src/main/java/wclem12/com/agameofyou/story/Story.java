@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Story implements Serializable {
-    private ArrayList<StoryPage> storyPageList = new ArrayList<StoryPage>();
-    private String id = null;
+    private int id = -1;
     private String title = null;
     private String author = null;
     private String create_date = null;
@@ -14,25 +13,26 @@ public class Story implements Serializable {
     private String genre = null;
     private String tags = null;
     private String cover = null;
+    private ArrayList<Page> pageList = new ArrayList<Page>();
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public StoryPage getStoryPage (int destination) {
-        return storyPageList.get(destination);
+    public Page getStoryPage (int destination) {
+        return pageList.get(destination);
     }
 
-    public ArrayList<StoryPage> getStoryPageList() {
-        return storyPageList;
+    public ArrayList<Page> getPageList() {
+        return pageList;
     }
 
-    public void setStoryPageList(ArrayList<StoryPage> storyPageList) {
-        this.storyPageList = storyPageList;
+    public void setPageList(ArrayList<Page> pageList) {
+        this.pageList = pageList;
     }
 
     public String getTitle() {

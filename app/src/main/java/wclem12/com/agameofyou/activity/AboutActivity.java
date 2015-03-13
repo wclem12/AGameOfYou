@@ -22,7 +22,7 @@ public class AboutActivity extends BaseActivity {
         //Add up navigation to this fragment
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setContentView(R.layout.about_page);
+        setContentView(R.layout.activity_about_app);
 
         loadAbout();
     }
@@ -48,7 +48,7 @@ public class AboutActivity extends BaseActivity {
             aboutItemList.add(aboutItem);
         }
 
-        AboutAdapter aboutAdapter = new AboutAdapter(MainMenuActivity.CONTEXT_NAME, R.layout.about_item, aboutItemList);
+        AboutAdapter aboutAdapter = new AboutAdapter(MyLibraryActivity.CONTEXT_NAME, R.layout.view_about_app, aboutItemList);
 
         View footer = getLayoutInflater().inflate(R.layout.about_page_footer, null);
 

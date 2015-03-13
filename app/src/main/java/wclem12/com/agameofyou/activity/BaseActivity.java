@@ -1,11 +1,11 @@
 package wclem12.com.agameofyou.activity;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.os.Bundle;
 
 import wclem12.com.agameofyou.util.Utils;
 
-public abstract class BaseActivity extends ListActivity {
+public abstract class BaseActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

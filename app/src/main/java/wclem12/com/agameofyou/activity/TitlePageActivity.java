@@ -47,24 +47,24 @@ public class TitlePageActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.action_settings:
                 extra.putSerializable("Activity", Utils.ACTIVITY_TITLE);
-                intent = new Intent(MainMenuActivity.CONTEXT_NAME, SettingsActivity.class);
+                intent = new Intent(MyLibraryActivity.CONTEXT_NAME, SettingsActivity.class);
                 intent.putExtra("extra", extra);
                 startActivity(intent);
                 return true;
             case R.id.action_main_menu:
                 finish();
-                Utils.SaveSettings(Utils.ACTIVITY_MAIN, null, -1);
+                Utils.SaveSettings(Utils.ACTIVITY_MAIN, -1, -1);
                 return true;
             case R.id.action_story_about:
                 extra.putSerializable("Story", story);
 
-                intent = new Intent(MainMenuActivity.CONTEXT_NAME, AboutStoryActivity.class);
+                intent = new Intent(MyLibraryActivity.CONTEXT_NAME, AboutStoryActivity.class);
                 intent.putExtra("extra", extra);
 
                 startActivity(intent);
                 return true;
             case R.id.action_about:
-                intent = new Intent(MainMenuActivity.CONTEXT_NAME, AboutActivity.class);
+                intent = new Intent(MyLibraryActivity.CONTEXT_NAME, AboutActivity.class);
                 startActivity(intent);
                 return true;
         }
@@ -73,7 +73,7 @@ public class TitlePageActivity extends BaseActivity {
     }
 
     private void loadTitlePage() {
-        setContentView(R.layout.title_page);
+        setContentView(R.layout.activitiy_title_page);
         setTitle(story.getTitle());
 
         //Load data
@@ -88,7 +88,7 @@ public class TitlePageActivity extends BaseActivity {
         //cover image
         ImageView cover = (ImageView) findViewById(R.id.coverImageLarge);
         String coverStr = story.getCover();
-        cover.setImageResource(getResources().getIdentifier(coverStr, "drawable", MainMenuActivity.PACKAGE_NAME));
+        cover.setImageResource(getResources().getIdentifier(coverStr, "drawable", MyLibraryActivity.PACKAGE_NAME));
 
         //click listener for Begin button loads the story
         Button beginStoryBtn = (Button) findViewById(R.id.title_page_button);
@@ -100,7 +100,7 @@ public class TitlePageActivity extends BaseActivity {
                 extra.putSerializable("Story", story);
                 extra.putSerializable("Page", 1);
 
-                Intent intent = new Intent(MainMenuActivity.CONTEXT_NAME, StoryPageActivity.class);
+                Intent intent = new Intent(MyLibraryActivity.CONTEXT_NAME, StoryPageActivity.class);
                 intent.putExtra("extra", extra);
                 finish();
                 startActivity(intent);
@@ -110,7 +110,7 @@ public class TitlePageActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        Utils.SaveSettings(Utils.ACTIVITY_MAIN, null, -1);
+        Utils.SaveSettings(Utils.ACTIVITY_MAIN, -1, -1);
 
         super.onBackPressed();
     }

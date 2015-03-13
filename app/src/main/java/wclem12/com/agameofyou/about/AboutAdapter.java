@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import wclem12.com.agameofyou.R;
-import wclem12.com.agameofyou.activity.MainMenuActivity;
+import wclem12.com.agameofyou.activity.MyLibraryActivity;
 import wclem12.com.agameofyou.util.Utils;
 
 public class AboutAdapter extends ArrayAdapter<AboutItem> {
@@ -27,7 +27,7 @@ public class AboutAdapter extends ArrayAdapter<AboutItem> {
 
         if(view == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.about_item, null);
+            view = inflater.inflate(R.layout.view_about_app, null);
 
         }
 
@@ -49,13 +49,13 @@ public class AboutAdapter extends ArrayAdapter<AboutItem> {
             switch (Utils.sTheme) {
                 default:
                 case Utils.THEME_LIGHT:
-                    color = MainMenuActivity.CONTEXT_NAME.getResources().getColor(android.R.color.primary_text_light);
+                    color = MyLibraryActivity.CONTEXT_NAME.getResources().getColor(android.R.color.primary_text_light);
                     break;
                 case Utils.THEME_DARK:
-                    color = MainMenuActivity.CONTEXT_NAME.getResources().getColor(android.R.color.primary_text_dark);
+                    color = MyLibraryActivity.CONTEXT_NAME.getResources().getColor(android.R.color.primary_text_dark);
                     break;
                 case Utils.THEME_SEPIA:
-                    color = MainMenuActivity.CONTEXT_NAME.getResources().getColor(R.color.sepia_dark);
+                    color = MyLibraryActivity.CONTEXT_NAME.getResources().getColor(R.color.sepia_dark);
                     break;
             }
 
@@ -74,6 +74,6 @@ public class AboutAdapter extends ArrayAdapter<AboutItem> {
     }
 
     public int getImageId (String imageName) {
-        return MainMenuActivity.CONTEXT_NAME.getResources().getIdentifier(imageName, "drawable", MainMenuActivity.PACKAGE_NAME);
+        return MyLibraryActivity.CONTEXT_NAME.getResources().getIdentifier(imageName, "drawable", MyLibraryActivity.PACKAGE_NAME);
     }
 }

@@ -2,7 +2,7 @@ package wclem12.com.agameofyou.story;
 
 import java.io.Serializable;
 
-public class StoryPageChoice implements Serializable {
+public class Choice implements Serializable {
     private int id = -1;
     private int destination = -1;
     private String text = null;

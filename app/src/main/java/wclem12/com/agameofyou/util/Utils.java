@@ -5,10 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.widget.TextView;
 
-import wclem12.com.agameofyou.CustomTextView;
 import wclem12.com.agameofyou.R;
-import wclem12.com.agameofyou.activity.MainMenuActivity;
+import wclem12.com.agameofyou.activity.MyLibraryActivity;
 
 public class Utils {
     public static String sTheme = "Theme.Light";
@@ -46,9 +46,9 @@ public class Utils {
     public final static String FONTSTYLEBOLD_SOURCE_SANS_PRO = "SourceSansPro-Bold.otf";
     public final static String FONTSTYLEBOLD_TITILLIUM = "Titillium-Bold.otf";
 
-    public final static String ACTIVITY_MAIN = "main_menu";
-    public final static String ACTIVITY_TITLE = "title_page";
-    public final static String ACTIVITY_STORY = "story_page";
+    public final static String ACTIVITY_MAIN = "activity_mylibrary";
+    public final static String ACTIVITY_TITLE = "activitiy_title_page";
+    public final static String ACTIVITY_STORY = "activity_story_page";
 
     public static void changeTextSize(float textSize) {
         sTextSize = textSize;
@@ -112,18 +112,18 @@ public class Utils {
         }
     }
 
-    public static void SaveSettings(String activityName, String storyId, int pageNumber) {
-        SharedPreferences settings = MainMenuActivity.CONTEXT_NAME.getSharedPreferences(MainMenuActivity.PREFS_NAME, Context.MODE_PRIVATE);
+    public static void SaveSettings(String activityName, int storyId, int pageNumber) {
+        SharedPreferences settings = MyLibraryActivity.CONTEXT_NAME.getSharedPreferences(MyLibraryActivity.PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
 
         editor.putString("Activity", activityName);
 
         if (activityName.equals(ACTIVITY_MAIN)) {
-            editor.putBoolean("isList", MainMenuActivity.isList);
+            editor.putBoolean("isList", MyLibraryActivity.isList);
         }
 
-        if(storyId != null && !storyId.isEmpty()) {
-            editor.putString("Story", storyId);
+        if(storyId > 0) {
+            editor.putInt("Story", storyId);
         }
 
         if(pageNumber != -1) {
@@ -134,7 +134,7 @@ public class Utils {
         editor.apply();
     }
 
-    public static void ChangeStoryText(Activity activity, CustomTextView storyPageButtonDestination, CustomTextView storyPageButtonText) {
+    public static void ChangeStoryText(Activity activity, TextView storyPageButtonDestination, CustomTextView storyPageButtonText) {
         Typeface typeface = Typeface.createFromAsset(activity.getAssets(), "fonts/" + sFontStyle);
 
         if(storyPageButtonText != null && storyPageButtonDestination != null) {

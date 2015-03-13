@@ -7,7 +7,7 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.Light" >
         <activity
-            android:name=".activity.MainMenuActivity"
+            android:name=".activity.MyLibraryActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

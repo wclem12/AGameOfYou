@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Sepia" parent="android:Theme.Material.Light.DarkActionBar">
+        <item name="themeName">Theme.Sepia</item>
+        <item name="android:actionBarStyle">@style/Theme.Sepia.ActionBar</item>
+        <item name="android:actionOverflowMenuStyle">@style/Theme.Sepia.PopupMenu</item>
+        <item name="android:windowBackground">@color/sepia_light</item>
+        <item name="android:colorAccent">@color/sepia_med</item>
+        <item name="android:textColor">@color/sepia_dark</item>
+        <item name="android:textColorPrimary">@color/sepia_dark</item>
+    </style>
+
+    <style name="Theme.Sepia.ActionBar" parent="android:style/Widget.Material.ActionBar">
+        <item name="android:titleTextStyle">@style/Theme.Sepia.ActionBar.Text</item>
+        <item name="android:textColorPrimary">@color/sepia_light</item>
+        <item name="android:background">@color/sepia_dark</item>
+    </style>
+
+    <style name="Theme.Sepia.ActionBar.Text" parent="@android:style/TextAppearance.Material.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/sepia_light</item>
+    </style>
+
+    <style name="Theme.Sepia.PopupMenu" parent="android:style/Widget.Material.PopupMenu.Overflow">
+        <item name="android:popupBackground">@color/sepia_med</item>
+
+        <!-- Required for pre-Lollipop. -->
+        <item name="overlapAnchor">false</item>
+
+        <!-- Required for Lollipop. -->
+        <item name="android:overlapAnchor">false</item>
+    </style>
+</resources>

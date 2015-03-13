@@ -1,20 +1,28 @@
 package wclem12.com.agameofyou.activity;
 
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
-import android.widget.ListAdapter;
-import android.widget.ListView;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import wclem12.com.agameofyou.R;
-import wclem12.com.agameofyou.about.AboutStoryAdapter;
+import wclem12.com.agameofyou.about.AboutStoryItem;
 import wclem12.com.agameofyou.story.Story;
+import wclem12.com.agameofyou.util.BaseAdapter;
+import wclem12.com.agameofyou.util.DividerItemDecoration;
 
 public class AboutStoryActivity extends BaseActivity{
-    final String KEY_TAG = MainMenuActivity.CONTEXT_NAME.getString(R.string.about_story_page_tag);
-    final String KEY_DATA = MainMenuActivity.CONTEXT_NAME.getString(R.string.about_story_page_data);
+    final String KEY_TAG = MyLibraryActivity.CONTEXT_NAME.getString(R.string.about_story_page_tag);
+    final String KEY_DATA = MyLibraryActivity.CONTEXT_NAME.getString(R.string.about_story_page_data);
+
+    private ArrayList<AboutStoryItem> aboutStoryItemList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,23 +34,61 @@ public class AboutStoryActivity extends BaseActivity{
         Bundle extra = getIntent().getBundleExtra("extra");
         Story story = (Story) extra.getSerializable("Story");
 
-        ArrayList<HashMap<String, String>> detailsList = new ArrayList<HashMap<String, String>>();
+        aboutStoryItemList = new ArrayList<>();
 
-        setContentView(R.layout.about_story_page);
+        setContentView(R.layout.activity_about_story);
         setTitle("About " + story.getTitle());
 
-        detailsList.add(addToDataList("Title", story.getTitle())); //title
-        detailsList.add(addToDataList("Author", story.getAuthor())); //author
-        detailsList.add(addToDataList("Create Date", story.getCreateDate())); //create_date
-        detailsList.add(addToDataList("Last Edit", story.getLastEditDate())); //last_edit_date
-        detailsList.add(addToDataList("Creator Username", story.getCreatorUsername())); //creator_username
-        detailsList.add(addToDataList("Genre", story.getGenre())); //genre
-        detailsList.add(addToDataList("Tags", story.getTags())); //tags
+        //title
+        AboutStoryItem aboutStoryItem = new AboutStoryItem();
+        aboutStoryItem.setTag("Title");
+        aboutStoryItem.setData(story.getTitle());
+        aboutStoryItemList.add(aboutStoryItem);
 
-        ListAdapter listAdapter = new AboutStoryAdapter(MainMenuActivity.CONTEXT_NAME, detailsList, R.layout.about_story_item, new String[] {KEY_TAG, KEY_DATA}, new int[] {R.id.about_story_tag, R.id.about_story_data});
+        //author
+        aboutStoryItem = new AboutStoryItem();
+        aboutStoryItem.setTag("Author");
+        aboutStoryItem.setData(story.getAuthor());
+        aboutStoryItemList.add(aboutStoryItem);
 
-        ListView listView = (ListView) findViewById(android.R.id.list);
-        listView.setAdapter(listAdapter);
+        //create_date
+        aboutStoryItem = new AboutStoryItem();
+        aboutStoryItem.setTag("Create Date");
+        aboutStoryItem.setData(story.getCreateDate());
+        aboutStoryItemList.add(aboutStoryItem);
+
+        //last_edit_date
+        aboutStoryItem = new AboutStoryItem();
+        aboutStoryItem.setTag("Last Edit");
+        aboutStoryItem.setData(story.getLastEditDate());
+        aboutStoryItemList.add(aboutStoryItem);
+
+        //creator_username
+        aboutStoryItem = new AboutStoryItem();
+        aboutStoryItem.setTag("Creator Username");
+        aboutStoryItem.setData(story.getCreatorUsername());
+        aboutStoryItemList.add(aboutStoryItem);
+
+        //genre
+        aboutStoryItem = new AboutStoryItem();
+        aboutStoryItem.setTag("Genre");
+        aboutStoryItem.setData(story.getGenre());
+        aboutStoryItemList.add(aboutStoryItem);
+
+        //tags
+        aboutStoryItem = new AboutStoryItem();
+        aboutStoryItem.setTag("Tags");
+        aboutStoryItem.setData(story.getTags());
+        aboutStoryItemList.add(aboutStoryItem);
+
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.about_story_list);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+
+        AboutStoryAdapter aboutStoryAdapter = new AboutStoryAdapter(null, null);
+        recyclerView.setAdapter(aboutStoryAdapter);
+
     }
 
     private HashMap<String, String> addToDataList(String tag, String data) {
@@ -71,4 +117,23 @@ public class AboutStoryActivity extends BaseActivity{
         super.onStop();
     }
 
+    class AboutStoryAdapter extends BaseAdapter<AboutStoryItem> {
+
+        public AboutStoryAdapter(View.OnClickListener clickListener, View.OnLongClickListener longClickListener) {
+            super(AboutStoryActivity.this, clickListener, longClickListener);
+            this.items = aboutStoryItemList;
+        }
+
+        @Override public View newView(ViewGroup container) {
+            return inflater.inflate(R.layout.view_about_story, container, false);
+        }
+
+        @Override public void bindView(AboutStoryItem aboutStoryItem, int position, View view) {
+            TextView tagText = (TextView) view.findViewById(R.id.about_story_tag);
+            TextView dataText = (TextView) view.findViewById(R.id.about_story_data);
+
+            tagText.setText(aboutStoryItem.getTag());
+            dataText.setText(aboutStoryItem.getData());
+        }
+    }
 }

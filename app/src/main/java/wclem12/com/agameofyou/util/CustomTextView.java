@@ -1,4 +1,4 @@
-package wclem12.com.agameofyou;
+package wclem12.com.agameofyou.util;
 
 import android.content.Context;
 import android.graphics.Typeface;

@@ -1,22 +1,27 @@
 package wclem12.com.agameofyou.activity;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import wclem12.com.agameofyou.R;
 import wclem12.com.agameofyou.story.Story;
-import wclem12.com.agameofyou.story.StoryAdapter;
-import wclem12.com.agameofyou.story.StoryPage;
-import wclem12.com.agameofyou.story.StoryPageChoice;
+import wclem12.com.agameofyou.story.Page;
+import wclem12.com.agameofyou.story.Choice;
+import wclem12.com.agameofyou.util.BaseAdapter;
+import wclem12.com.agameofyou.util.DividerItemDecoration;
 import wclem12.com.agameofyou.util.Utils;
 
 public class StoryPageActivity extends BaseActivity {
@@ -24,9 +29,11 @@ public class StoryPageActivity extends BaseActivity {
     private int currentPage = 1;
 
     // Content keys
-    final String KEY_BUTTON_TEXT = MainMenuActivity.CONTEXT_NAME.getString(R.string.button_text_tag);
-    final String KEY_BUTTON_DESTINATION = MainMenuActivity.CONTEXT_NAME.getString(R.string.button_destination_tag);
+    final String KEY_BUTTON_TEXT = MyLibraryActivity.CONTEXT_NAME.getString(R.string.button_text_tag);
+    final String KEY_BUTTON_DESTINATION = MyLibraryActivity.CONTEXT_NAME.getString(R.string.button_destination_tag);
     final int REQUEST_CODE = 12345;
+
+    private ArrayList<Choice> choiceList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,27 +64,35 @@ public class StoryPageActivity extends BaseActivity {
                 Bundle extra = new Bundle();
                 extra.putSerializable("Activity", Utils.ACTIVITY_STORY);
 
-                Intent intent = new Intent(MainMenuActivity.CONTEXT_NAME, SettingsActivity.class);
+                Intent intent = new Intent(MyLibraryActivity.CONTEXT_NAME, SettingsActivity.class);
                 intent.putExtra("extra", extra);
                 startActivityForResult(intent, REQUEST_CODE);
                 return true;
             case R.id.action_restart:
-                //load page 1
-                loadPage(1);
-                //update saved settings
+                restart();
                 return true;
             case R.id.action_main_menu:
-                finish();
-                finish();
-                Utils.SaveSettings(Utils.ACTIVITY_MAIN, null, -1);
+                mainMenu();
                 return true;
             case R.id.action_about:
-                intent = new Intent(MainMenuActivity.CONTEXT_NAME, AboutActivity.class);
+                intent = new Intent(MyLibraryActivity.CONTEXT_NAME, AboutActivity.class);
                 startActivity(intent);
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void restart() {
+        //load page 1
+        loadPage(1);
+        //update saved settings
+    }
+
+    private void mainMenu() {
+        finish();
+        finish();
+        Utils.SaveSettings(Utils.ACTIVITY_MAIN, -1, -1);
     }
 
     @Override
@@ -95,7 +110,7 @@ public class StoryPageActivity extends BaseActivity {
     }
 
     private void loadPage(int destination){
-        setContentView(R.layout.story_page);
+        setContentView(R.layout.activity_story_page);
 
         setTitle(story.getTitle());
 
@@ -104,61 +119,91 @@ public class StoryPageActivity extends BaseActivity {
 
         //since we're dealing with indexes, subtract one
         destination--;
-        StoryPage storyPage = story.getStoryPage(destination);
+        Page page = story.getStoryPage(destination);
 
-        //buttons created call this function
-        ArrayList<HashMap<String, String>> buttons = new ArrayList<HashMap<String, String>>();
+        choiceList = page.getChoiceList();
 
-        ArrayList<StoryPageChoice> buttonList = storyPage.getButtonList();
-        HashMap<String, String> buttonMap;
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.story_page_list);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
-        //add page text first
-        buttonMap = new HashMap<String, String>();
-        buttonMap.put(KEY_BUTTON_TEXT, storyPage.getText());
-        buttonMap.put(KEY_BUTTON_DESTINATION, "-1");
-        buttons.add(buttonMap);
-
-        for(int i = 0; i < buttonList.size(); i++) {
-            buttonMap = new HashMap<String, String>();
-
-            StoryPageChoice pb = buttonList.get(i);
-
-            buttonMap.put(KEY_BUTTON_TEXT, pb.getText());
-            buttonMap.put(KEY_BUTTON_DESTINATION, String.valueOf(pb.getDestination()));
-
-            buttons.add(buttonMap);
-        }
-
-        View header = getLayoutInflater().inflate(R.layout.story_page_header, null);
-
-        ListAdapter adapter = new StoryAdapter(MainMenuActivity.CONTEXT_NAME, buttons, R.layout.story_page_button_item, new String[]{KEY_BUTTON_TEXT, KEY_BUTTON_DESTINATION}, new int[]{R.id.story_page_button_text, R.id.story_page_button_destination});
-        ListView listView = (ListView) findViewById(android.R.id.list);
-//        listView.addHeaderView(header,null,false);
-//
-//        TextView text = (TextView) findViewById(R.id.story_page_text);
-//        text.setText(storyPage.getText());
-
-        listView.setAdapter(adapter);
-
-        //for buttons, id is page_next_button from story_page_button_itembutton_item.xml
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int destination = Integer.valueOf(((TextView) view.findViewById(R.id.story_page_button_destination)).getText().toString());
-
-                if(destination > 0) {
-                    loadPage(destination);
-                }
-            }
-        });
+        StoryPageAdapter storyAdapter = new StoryPageAdapter(choiceClick, choiceLongClick);
+        recyclerView.setAdapter(storyAdapter);
 
         Utils.SaveSettings(Utils.ACTIVITY_STORY, story.getId(), currentPage);
     }
 
+    View.OnClickListener choiceClick = new View.OnClickListener() {
+        @Override public void onClick(View v) {
+            click(v);
+        }
+    };
+
+    View.OnLongClickListener choiceLongClick = new View.OnLongClickListener() {
+        @Override public boolean onLongClick(View v) {
+            click(v);
+
+            return true;
+        }
+    };
+
+    private void click(View v) {
+        int destination = Integer.valueOf(((TextView) v.findViewById(R.id.story_page_button_destination)).getText().toString());
+
+        if(destination >= 0) {
+            if(destination == 0) {
+                String location = ((TextView) v.findViewById(R.id.story_page_button_text)).getText().toString();
+
+                if(location.equals("Main Menu")) {
+                    mainMenu();
+                } else if (location.equals("Restart Story")) {
+                    restart();
+                }
+
+            } else {
+                loadPage(destination);
+            }
+        }
+    }
+
     @Override
     public void onBackPressed() {
-        Utils.SaveSettings("main_menu", null, -1);
+        Utils.SaveSettings("activity_mylibrary", -1, -1);
 
         super.onBackPressed();
+    }
+
+    class StoryPageAdapter extends BaseAdapter<Choice> {
+
+        public StoryPageAdapter(View.OnClickListener clickListener, View.OnLongClickListener longClickListener) {
+            super(StoryPageActivity.this, clickListener, longClickListener);
+            this.items = choiceList;
+        }
+
+        @Override public View newView(ViewGroup container) {
+            return inflater.inflate(R.layout.view_story_page, container, false);
+        }
+
+        @Override public void bindView(Choice choice, int position, View view) {
+            TextView choiceText = (TextView) view.findViewById(R.id.story_page_button_text);
+            TextView choiceDest = (TextView) view.findViewById(R.id.story_page_button_destination);
+
+            choiceText.setText(choice.getText());
+            choiceDest.setText(String.valueOf(choice.getDestination()));
+
+            choiceText.setTextSize(TypedValue.COMPLEX_UNIT_SP, Utils.sTextSize);
+
+            Typeface typeface = Typeface.createFromAsset(MyLibraryActivity.CONTEXT_NAME.getAssets(), "fonts/" + Utils.sFontStyle);
+
+            if(choiceDest.getText().equals("-1")) {
+                choiceText.setTypeface(typeface);
+                choiceText.setGravity(Gravity.NO_GRAVITY);
+            } else {
+                choiceText.setTypeface(typeface, Typeface.BOLD);
+                choiceText.setGravity(Gravity.CENTER);
+            }
+        }
     }
 }

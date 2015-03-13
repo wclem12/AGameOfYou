@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import wclem12.com.agameofyou.CustomTextView;
+import wclem12.com.agameofyou.util.CustomTextView;
 import wclem12.com.agameofyou.R;
 import wclem12.com.agameofyou.util.Utils;
 
@@ -42,14 +42,14 @@ public class SettingsActivity extends BaseActivity {
         //Add up navigation to this fragment
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setContentView(R.layout.settings_page);
+        setContentView(R.layout.activity_settings);
 
         //get calling activity
         Bundle extra = getIntent().getBundleExtra("extra");
         callingActivity = extra.getString("Activity");
 
         //get sharedprefs
-        SharedPreferences settings = getSharedPreferences(MainMenuActivity.PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences settings = getSharedPreferences(MyLibraryActivity.PREFS_NAME, Context.MODE_PRIVATE);
 
         textSizePos = settings.getInt("textSizePos", 1);
         fontStylePos = settings.getInt("fontStylePos", 6);
@@ -386,7 +386,7 @@ public class SettingsActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         if(callingActivity.equals(Utils.ACTIVITY_STORY)){
-            CustomTextView storyPageButtonDestination = (CustomTextView) activity.findViewById(R.id.story_page_button_destination);
+            TextView storyPageButtonDestination = (TextView) activity.findViewById(R.id.story_page_button_destination);
             CustomTextView storyPageButtonText = (CustomTextView) activity.findViewById(R.id.story_page_button_text);
 
             Utils.ChangeStoryText(this, storyPageButtonDestination, storyPageButtonText);
@@ -403,7 +403,7 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private void saveSettings() {
-        SharedPreferences settings = getSharedPreferences(MainMenuActivity.PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences settings = getSharedPreferences(MyLibraryActivity.PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         editor.putFloat("textsize", Utils.sTextSize);
         editor.putInt("textSizePos", textSizePos);
