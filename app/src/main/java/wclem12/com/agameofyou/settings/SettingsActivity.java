@@ -1,4 +1,4 @@
-package wclem12.com.agameofyou.activity;
+package wclem12.com.agameofyou.settings;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,16 +10,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import wclem12.com.agameofyou.util.CustomTextView;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import wclem12.com.agameofyou.R;
+import wclem12.com.agameofyou.activity.BaseActivity;
+import wclem12.com.agameofyou.activity.MyLibraryActivity;
+import wclem12.com.agameofyou.util.CustomTextView;
 import wclem12.com.agameofyou.util.Utils;
 
 public class SettingsActivity extends BaseActivity {
+    @InjectView(R.id.textSizeSpinner) public Spinner textSizeSpinner;
+    @InjectView(R.id.fontStyleSpinner) public Spinner fontStyleSpinner;
+    @InjectView(R.id.themeSpinner) public Spinner themeSpinner;
+
     private String callingActivity = "";
     private float textSizeFloat;
     private String fontStyleStr;
@@ -44,6 +51,8 @@ public class SettingsActivity extends BaseActivity {
 
         setContentView(R.layout.activity_settings);
 
+        ButterKnife.inject(this);
+
         //get calling activity
         Bundle extra = getIntent().getBundleExtra("extra");
         callingActivity = extra.getString("Activity");
@@ -59,19 +68,31 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private void initializeSpinners() {
-        initializeTextSizeSpinner();
-        initializeFontStyleSpinner();
-        initializeThemeSpinner();
+        //for now, assign arbitrary values to spinners
+        //TextSize = 0, FontStyle = 1, ThemeSpinner = 2
+
+        for(int i = 0; i <=2; i++) {
+            setupSpinner(i);
+        }
     }
 
-    private void initializeTextSizeSpinner() {
-        final Spinner textSizeSpinner = (Spinner) findViewById(R.id.textSizeSpinner);
-        textSizeSpinner.setAdapter(new TextSizeSpinnerAdapter(this, R.layout.settings_textsize, textSizeValues));
-        textSizeSpinner.setSelection(textSizePos); //init to medium
-        textSizeSpinner.post(new Runnable() {
-            @Override
-            public void run() {
-                textSizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+    private void setupSpinner(int spinInt) {
+        final Spinner spinner;
+        int layoutId, startPos = 0;
+        String[] values;
+        BaseSpinnerAdapter adapter;
+        AdapterView.OnItemSelectedListener listener = null;
+
+        switch(spinInt) {
+            default:
+            case 0:
+                spinner = textSizeSpinner;
+                layoutId = R.layout.settings_textsize;
+                startPos = textSizePos;
+                values = textSizeValues;
+                adapter = new TextSizeSpinnerAdapter(this, layoutId, values);
+                new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         //Add functionality to font size
@@ -98,20 +119,15 @@ public class SettingsActivity extends BaseActivity {
                     public void onNothingSelected(AdapterView<?> parent) {
 
                     }
-                });
-            }
-        });
-
-    }
-
-    private void initializeFontStyleSpinner() {
-        final Spinner fontStyleSpinner = (Spinner) findViewById(R.id.fontStyleSpinner);
-        fontStyleSpinner.setAdapter(new FontStyleSpinnerAdapter(this, R.layout.settings_textsize, fontStyleValues));
-        fontStyleSpinner.setSelection(fontStylePos);
-        fontStyleSpinner.post(new Runnable() {
-            @Override
-            public void run() {
-                fontStyleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                };
+                break;
+            case 1:
+                spinner = fontStyleSpinner;
+                layoutId = R.layout.settings_fontstyle;
+                startPos = fontStylePos;
+                values = fontStyleValues;
+                adapter = new FontStyleSpinnerAdapter(this, layoutId, values);
+                listener = new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         //Add functionality to font style
@@ -156,20 +172,15 @@ public class SettingsActivity extends BaseActivity {
                     public void onNothingSelected(AdapterView<?> parent) {
 
                     }
-                });
-            }
-        });
-
-    }
-
-    private void initializeThemeSpinner() {
-        final Spinner themeSpinner = (Spinner) findViewById(R.id.themeSpinner);
-        themeSpinner.setAdapter(new ThemeSpinnerAdapter(this, R.layout.settings_textsize, themeValues));
-        themeSpinner.setSelection(themePos);
-        themeSpinner.post(new Runnable() {
-            @Override
-            public void run() {
-                themeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                };
+                break;
+            case 2:
+                spinner = themeSpinner;
+                layoutId = R.layout.settings_theme;
+                startPos = themePos;
+                values = themeValues;
+                adapter = new ThemeSpinnerAdapter(this, layoutId, values);
+                listener = new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         //Add functionality to app theme
@@ -196,26 +207,28 @@ public class SettingsActivity extends BaseActivity {
                     public void onNothingSelected(AdapterView<?> parent) {
 
                     }
-                });
+                };
+                break;
+        }
+
+
+        spinner.setAdapter(adapter);
+        spinner.setSelection(startPos);
+        final AdapterView.OnItemSelectedListener finalListener = listener;
+        spinner.post(new Runnable() {
+            @Override
+            public void run() {
+                spinner.setOnItemSelectedListener(finalListener);
             }
         });
     }
 
-    public class TextSizeSpinnerAdapter extends ArrayAdapter<String> {
+    public class TextSizeSpinnerAdapter extends BaseSpinnerAdapter {
         public TextSizeSpinnerAdapter(Context context, int txtViewResourceId, String[] objects) {
             super(context, txtViewResourceId, objects);
         }
 
-        @Override
-        public View getDropDownView(int position, View convertView, ViewGroup parent) {
-            return getCustomView(position, convertView, parent);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            return getCustomView(position, convertView, parent);
-        }
-
+       @Override
         public View getCustomView(int position, View convertView, ViewGroup parent) {
             View view = convertView;
 
@@ -249,21 +262,12 @@ public class SettingsActivity extends BaseActivity {
         }
     }
 
-    public class FontStyleSpinnerAdapter extends ArrayAdapter<String> {
+    public class FontStyleSpinnerAdapter extends BaseSpinnerAdapter {
         public FontStyleSpinnerAdapter(Context context, int txtViewResourceId, String[] objects) {
             super(context, txtViewResourceId, objects);
         }
 
         @Override
-        public View getDropDownView(int position, View convertView, ViewGroup parent) {
-            return getCustomView(position, convertView, parent);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            return getCustomView(position, convertView, parent);
-        }
-
         public View getCustomView(int position, View convertView, ViewGroup parent) {
             View view = convertView;
 
@@ -316,21 +320,12 @@ public class SettingsActivity extends BaseActivity {
         }
     }
 
-    public class ThemeSpinnerAdapter extends ArrayAdapter<String> {
+    public class ThemeSpinnerAdapter extends BaseSpinnerAdapter {
         public ThemeSpinnerAdapter(Context context, int txtViewResourceId, String[] objects) {
             super(context, txtViewResourceId, objects);
         }
 
         @Override
-        public View getDropDownView(int position, View convertView, ViewGroup parent) {
-            return getCustomView(position, convertView, parent);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            return getCustomView(position, convertView, parent);
-        }
-
         public View getCustomView(int position, View convertView, ViewGroup parent) {
             View view = convertView;
 
@@ -386,8 +381,8 @@ public class SettingsActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         if(callingActivity.equals(Utils.ACTIVITY_STORY)){
-            TextView storyPageButtonDestination = (TextView) activity.findViewById(R.id.story_page_button_destination);
-            CustomTextView storyPageButtonText = (CustomTextView) activity.findViewById(R.id.story_page_button_text);
+            TextView storyPageButtonDestination = (TextView) activity.findViewById(R.id.page_choice_destination);
+            CustomTextView storyPageButtonText = (CustomTextView) activity.findViewById(R.id.page_choice_text);
 
             Utils.ChangeStoryText(this, storyPageButtonDestination, storyPageButtonText);
         }

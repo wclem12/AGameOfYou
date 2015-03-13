@@ -1,14 +1,11 @@
-package wclem12.com.agameofyou.activity;
+package wclem12.com.agameofyou.page;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,21 +13,25 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import wclem12.com.agameofyou.R;
+import wclem12.com.agameofyou.about_app.AboutAppActivity;
+import wclem12.com.agameofyou.activity.BaseActivity;
+import wclem12.com.agameofyou.activity.MyLibraryActivity;
+import wclem12.com.agameofyou.settings.SettingsActivity;
 import wclem12.com.agameofyou.story.Story;
-import wclem12.com.agameofyou.story.Page;
-import wclem12.com.agameofyou.story.Choice;
-import wclem12.com.agameofyou.util.BaseAdapter;
+import wclem12.com.agameofyou.util.BaseRecyclerAdapter;
 import wclem12.com.agameofyou.util.DividerItemDecoration;
 import wclem12.com.agameofyou.util.Utils;
 
-public class StoryPageActivity extends BaseActivity {
+public class PageActivity extends BaseActivity {
+    @InjectView(R.id.choice_list) public RecyclerView choiceListRV;
+
     private Story story;
     private int currentPage = 1;
 
     // Content keys
-    final String KEY_BUTTON_TEXT = MyLibraryActivity.CONTEXT_NAME.getString(R.string.button_text_tag);
-    final String KEY_BUTTON_DESTINATION = MyLibraryActivity.CONTEXT_NAME.getString(R.string.button_destination_tag);
     final int REQUEST_CODE = 12345;
 
     private ArrayList<Choice> choiceList;
@@ -44,6 +45,32 @@ public class StoryPageActivity extends BaseActivity {
         int page = (Integer) extra.getSerializable("Page");
 
         loadPage(page);
+    }
+
+    private void loadPage(int destination){
+        setContentView(R.layout.activity_story_page);
+        setTitle(story.getTitle());
+
+        ButterKnife.inject(this);
+
+        //update current page for shared prefs
+        currentPage = destination;
+
+        //since we're dealing with indexes, subtract one
+        destination--;
+        Page page = story.getStoryPage(destination);
+
+        choiceList = page.getChoiceList();
+
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
+        choiceListRV.setLayoutManager(layoutManager);
+        choiceListRV.setItemAnimator(new DefaultItemAnimator());
+        choiceListRV.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+
+        ChoiceRecyclerAdapter storyAdapter = new ChoiceRecyclerAdapter(choiceClick, choiceLongClick);
+        choiceListRV.setAdapter(storyAdapter);
+
+        Utils.SaveSettings(Utils.ACTIVITY_STORY, story.getId(), currentPage);
     }
 
     @Override
@@ -75,7 +102,7 @@ public class StoryPageActivity extends BaseActivity {
                 mainMenu();
                 return true;
             case R.id.action_about:
-                intent = new Intent(MyLibraryActivity.CONTEXT_NAME, AboutActivity.class);
+                intent = new Intent(MyLibraryActivity.CONTEXT_NAME, AboutAppActivity.class);
                 startActivity(intent);
                 return true;
         }
@@ -109,31 +136,6 @@ public class StoryPageActivity extends BaseActivity {
         startActivity(getIntent());
     }
 
-    private void loadPage(int destination){
-        setContentView(R.layout.activity_story_page);
-
-        setTitle(story.getTitle());
-
-        //update current page for shared prefs
-        currentPage = destination;
-
-        //since we're dealing with indexes, subtract one
-        destination--;
-        Page page = story.getStoryPage(destination);
-
-        choiceList = page.getChoiceList();
-
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.story_page_list);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-
-        StoryPageAdapter storyAdapter = new StoryPageAdapter(choiceClick, choiceLongClick);
-        recyclerView.setAdapter(storyAdapter);
-
-        Utils.SaveSettings(Utils.ACTIVITY_STORY, story.getId(), currentPage);
-    }
 
     View.OnClickListener choiceClick = new View.OnClickListener() {
         @Override public void onClick(View v) {
@@ -150,11 +152,11 @@ public class StoryPageActivity extends BaseActivity {
     };
 
     private void click(View v) {
-        int destination = Integer.valueOf(((TextView) v.findViewById(R.id.story_page_button_destination)).getText().toString());
+        int destination = Integer.valueOf(((TextView) v.findViewById(R.id.page_choice_destination)).getText().toString());
 
         if(destination >= 0) {
             if(destination == 0) {
-                String location = ((TextView) v.findViewById(R.id.story_page_button_text)).getText().toString();
+                String location = ((TextView) v.findViewById(R.id.page_choice_text)).getText().toString();
 
                 if(location.equals("Main Menu")) {
                     mainMenu();
@@ -175,10 +177,10 @@ public class StoryPageActivity extends BaseActivity {
         super.onBackPressed();
     }
 
-    class StoryPageAdapter extends BaseAdapter<Choice> {
+    class ChoiceRecyclerAdapter extends BaseRecyclerAdapter<Choice> {
 
-        public StoryPageAdapter(View.OnClickListener clickListener, View.OnLongClickListener longClickListener) {
-            super(StoryPageActivity.this, clickListener, longClickListener);
+        public ChoiceRecyclerAdapter(View.OnClickListener clickListener, View.OnLongClickListener longClickListener) {
+            super(PageActivity.this, clickListener, longClickListener);
             this.items = choiceList;
         }
 
@@ -186,24 +188,9 @@ public class StoryPageActivity extends BaseActivity {
             return inflater.inflate(R.layout.view_story_page, container, false);
         }
 
-        @Override public void bindView(Choice choice, int position, View view) {
-            TextView choiceText = (TextView) view.findViewById(R.id.story_page_button_text);
-            TextView choiceDest = (TextView) view.findViewById(R.id.story_page_button_destination);
-
-            choiceText.setText(choice.getText());
-            choiceDest.setText(String.valueOf(choice.getDestination()));
-
-            choiceText.setTextSize(TypedValue.COMPLEX_UNIT_SP, Utils.sTextSize);
-
-            Typeface typeface = Typeface.createFromAsset(MyLibraryActivity.CONTEXT_NAME.getAssets(), "fonts/" + Utils.sFontStyle);
-
-            if(choiceDest.getText().equals("-1")) {
-                choiceText.setTypeface(typeface);
-                choiceText.setGravity(Gravity.NO_GRAVITY);
-            } else {
-                choiceText.setTypeface(typeface, Typeface.BOLD);
-                choiceText.setGravity(Gravity.CENTER);
-            }
+        @Override public void bindView(Choice item, int position, View view) {
+            ChoiceView choiceView = (ChoiceView) view;
+            choiceView.bindTo(item);
         }
     }
 }

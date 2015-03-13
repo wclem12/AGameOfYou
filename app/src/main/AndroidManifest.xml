@@ -24,25 +24,25 @@
         <!-- Story About Page -->
         <activity
             android:label="Story About Page"
-            android:name=".activity.AboutStoryActivity">
+            android:name=".about_story.AboutStoryActivity">
         </activity>
 
         <!-- Story Page -->
         <activity
             android:label="Story"
-            android:name=".activity.StoryPageActivity">
+            android:name=".page.PageActivity">
         </activity>
 
         <!-- Settings Page -->
         <activity
             android:label="Settings"
-            android:name=".activity.SettingsActivity">
+            android:name=".settings.SettingsActivity">
         </activity>
 
         <!-- About Page -->
         <activity
             android:label="About A Game of You"
-            android:name=".activity.AboutActivity">
+            android:name=".about_app.AboutAppActivity">
         </activity>
     </application>
 </manifest>

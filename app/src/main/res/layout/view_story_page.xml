@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<wclem12.com.agameofyou.page.ChoiceView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,16 +13,16 @@
         android:paddingRight="15dp"
         android:paddingBottom="15dp">
         <wclem12.com.agameofyou.util.CustomTextView
-            android:id="@+id/story_page_button_text"
+            android:id="@+id/page_choice_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:gravity="center"/>
         <TextView
-            android:id="@+id/story_page_button_destination"
+            android:id="@+id/page_choice_destination"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="0sp"
             android:visibility="invisible"/>
     </LinearLayout>
-</LinearLayout>
+</wclem12.com.agameofyou.page.ChoiceView>

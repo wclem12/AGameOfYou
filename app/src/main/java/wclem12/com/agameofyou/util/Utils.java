@@ -134,18 +134,18 @@ public class Utils {
         editor.apply();
     }
 
-    public static void ChangeStoryText(Activity activity, TextView storyPageButtonDestination, CustomTextView storyPageButtonText) {
+    public static void ChangeStoryText(Activity activity, TextView choiceDestination, CustomTextView choiceText) {
         Typeface typeface = Typeface.createFromAsset(activity.getAssets(), "fonts/" + sFontStyle);
 
-        if(storyPageButtonText != null && storyPageButtonDestination != null) {
+        if(choiceText != null && choiceDestination != null) {
             //change textsize to match preferences
-            storyPageButtonText.setTextSize(sTextSize);
+            choiceText.setTextSize(sTextSize);
 
             //change typeface to match preferences
-            if(storyPageButtonDestination.getText().equals("-1")) {
-                storyPageButtonText.setTypeface(typeface);
+            if(choiceDestination.getText().equals("-1")) {
+                choiceText.setTypeface(typeface);
             } else {
-                storyPageButtonText.setTypeface(typeface, Typeface.BOLD);
+                choiceText.setTypeface(typeface, Typeface.BOLD);
             }
         }
     }

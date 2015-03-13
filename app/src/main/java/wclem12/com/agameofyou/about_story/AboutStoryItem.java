@@ -1,8 +1,13 @@
-package wclem12.com.agameofyou.about;
+package wclem12.com.agameofyou.about_story;
 
 public class AboutStoryItem {
     private String tag;
     private String data;
+
+    public AboutStoryItem(String tag, String data) {
+        this.tag = tag;
+        this.data = data;
+    }
 
     public String getTag() {
         return tag;

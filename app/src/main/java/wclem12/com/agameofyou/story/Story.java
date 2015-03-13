@@ -3,6 +3,8 @@ package wclem12.com.agameofyou.story;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import wclem12.com.agameofyou.page.Page;
+
 public class Story implements Serializable {
     private int id = -1;
     private String title = null;

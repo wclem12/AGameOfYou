@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<wclem12.com.agameofyou.about_app.AboutAppView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -22,13 +22,11 @@
         android:layout_height="fill_parent"
         android:orientation="vertical"
         android:gravity="center">
-        <!--Title Label-->
         <TextView
             android:id="@+id/description"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"/>
-        <!--Xml ID Label-->
         <TextView
             android:id="@+id/uri"
             android:layout_width="fill_parent"
@@ -36,4 +34,4 @@
             android:textSize="0sp"
             android:visibility="invisible"/>
     </LinearLayout>
-</LinearLayout>
+</wclem12.com.agameofyou.about_app.AboutAppView>

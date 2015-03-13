@@ -8,27 +8,27 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.ViewHolder> {
+public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRecyclerAdapter.ViewHolder> {
     protected final Context context;
     protected final LayoutInflater inflater;
     protected final View.OnClickListener clickListener;
     protected final View.OnLongClickListener longClickListener;
     protected List<T> items;
 
-    public BaseAdapter(Context context, View.OnClickListener clickListener, View.OnLongClickListener longClickListener) {
+    public BaseRecyclerAdapter(Context context, View.OnClickListener clickListener, View.OnLongClickListener longClickListener) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.clickListener = clickListener;
         this.longClickListener = longClickListener;
     }
 
-    public BaseAdapter(Context context, View.OnClickListener clickListener) {
+    public BaseRecyclerAdapter(Context context, View.OnClickListener clickListener) {
         this(context, clickListener, null);
     }
-    public BaseAdapter(Context context, View.OnLongClickListener longClickListener) {
+    public BaseRecyclerAdapter(Context context, View.OnLongClickListener longClickListener) {
         this(context, null, longClickListener);
     }
-    public BaseAdapter(Context context) {
+    public BaseRecyclerAdapter(Context context) {
         this(context, null, null);
     }
 

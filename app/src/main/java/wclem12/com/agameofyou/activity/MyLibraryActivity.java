@@ -13,9 +13,12 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import wclem12.com.agameofyou.R;
+import wclem12.com.agameofyou.about_app.AboutAppActivity;
+import wclem12.com.agameofyou.about_story.AboutStoryActivity;
+import wclem12.com.agameofyou.settings.SettingsActivity;
 import wclem12.com.agameofyou.story.Story;
 import wclem12.com.agameofyou.story.StoryView;
-import wclem12.com.agameofyou.util.BaseAdapter;
+import wclem12.com.agameofyou.util.BaseRecyclerAdapter;
 import wclem12.com.agameofyou.util.LibraryDBHelper;
 import wclem12.com.agameofyou.util.Utils;
 
@@ -58,7 +61,7 @@ public class MyLibraryActivity extends BaseActivity {
         myLibraryView = (RecyclerView) findViewById(R.id.main_menu_list);
         myLibraryView.setLayoutManager(layoutManager);
 
-        MyLibraryAdapter myLibraryAdapter = new MyLibraryAdapter(choiceClick, choiceLongClick);
+        MyLibraryRecyclerAdapter myLibraryAdapter = new MyLibraryRecyclerAdapter(choiceClick, choiceLongClick);
         myLibraryView.setAdapter(myLibraryAdapter);
 
         isList = true;
@@ -137,7 +140,7 @@ public class MyLibraryActivity extends BaseActivity {
                 setViewButton(item);
                 return true;
             case R.id.action_about:
-                intent = new Intent(MyLibraryActivity.CONTEXT_NAME, AboutActivity.class);
+                intent = new Intent(MyLibraryActivity.CONTEXT_NAME, AboutAppActivity.class);
                 startActivity(intent);
                 return true;
         }
@@ -199,7 +202,7 @@ public class MyLibraryActivity extends BaseActivity {
         if(!longClick) {
             intent = new Intent(CONTEXT_NAME, TitlePageActivity.class);
         } else {
-            intent = new Intent(MyLibraryActivity.CONTEXT_NAME, AboutStoryActivity.class);
+            intent = new Intent(CONTEXT_NAME, AboutStoryActivity.class);
         }
 
         intent.putExtra("extra", extra);
@@ -225,9 +228,9 @@ public class MyLibraryActivity extends BaseActivity {
         */
     }
 
-    class MyLibraryAdapter extends BaseAdapter<Story> {
+    class MyLibraryRecyclerAdapter extends BaseRecyclerAdapter<Story> {
 
-        public MyLibraryAdapter(View.OnClickListener clickListener, View.OnLongClickListener longClickListener) {
+        public MyLibraryRecyclerAdapter(View.OnClickListener clickListener, View.OnLongClickListener longClickListener) {
             super(MyLibraryActivity.this, clickListener, longClickListener);
             this.items = myLibraryList;
         }

@@ -8,11 +8,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import wclem12.com.agameofyou.R;
+import wclem12.com.agameofyou.about_app.AboutAppActivity;
+import wclem12.com.agameofyou.about_story.AboutStoryActivity;
+import wclem12.com.agameofyou.settings.SettingsActivity;
 import wclem12.com.agameofyou.story.Story;
+import wclem12.com.agameofyou.page.PageActivity;
 import wclem12.com.agameofyou.util.Utils;
 
 public class TitlePageActivity extends BaseActivity {
+    @InjectView(R.id.title_page_title) public TextView title;
+    @InjectView(R.id.title_page_author) public TextView author;
+    @InjectView(R.id.title_page_button) public Button beginStoryBtn;
+    @InjectView(R.id.coverImageLarge) public ImageView cover;
+
     private Story story;
 
     @Override
@@ -64,7 +75,7 @@ public class TitlePageActivity extends BaseActivity {
                 startActivity(intent);
                 return true;
             case R.id.action_about:
-                intent = new Intent(MyLibraryActivity.CONTEXT_NAME, AboutActivity.class);
+                intent = new Intent(MyLibraryActivity.CONTEXT_NAME, AboutAppActivity.class);
                 startActivity(intent);
                 return true;
         }
@@ -75,23 +86,16 @@ public class TitlePageActivity extends BaseActivity {
     private void loadTitlePage() {
         setContentView(R.layout.activitiy_title_page);
         setTitle(story.getTitle());
+        ButterKnife.inject(this);
 
         //Load data
-        //title text
-        TextView title = (TextView) findViewById(R.id.title_page_title);
         title.setText(story.getTitle());
-
-        //author text
-        TextView author = (TextView) findViewById(R.id.title_page_author);
         author.setText("By: " + story.getAuthor());
 
-        //cover image
-        ImageView cover = (ImageView) findViewById(R.id.coverImageLarge);
         String coverStr = story.getCover();
-        cover.setImageResource(getResources().getIdentifier(coverStr, "drawable", MyLibraryActivity.PACKAGE_NAME));
+        cover.setImageResource(getImageId(coverStr));
 
         //click listener for Begin button loads the story
-        Button beginStoryBtn = (Button) findViewById(R.id.title_page_button);
         beginStoryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,12 +104,16 @@ public class TitlePageActivity extends BaseActivity {
                 extra.putSerializable("Story", story);
                 extra.putSerializable("Page", 1);
 
-                Intent intent = new Intent(MyLibraryActivity.CONTEXT_NAME, StoryPageActivity.class);
+                Intent intent = new Intent(MyLibraryActivity.CONTEXT_NAME, PageActivity.class);
                 intent.putExtra("extra", extra);
                 finish();
                 startActivity(intent);
             }
         });
+    }
+
+    private int getImageId (String imageName) {
+        return getResources().getIdentifier(imageName, "drawable", MyLibraryActivity.PACKAGE_NAME);
     }
 
     @Override

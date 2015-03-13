@@ -9,8 +9,8 @@ import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 import java.util.ArrayList;
 
-import wclem12.com.agameofyou.story.Choice;
-import wclem12.com.agameofyou.story.Page;
+import wclem12.com.agameofyou.page.Choice;
+import wclem12.com.agameofyou.page.Page;
 import wclem12.com.agameofyou.story.Story;
 
 public class LibraryDBHelper extends SQLiteAssetHelper {

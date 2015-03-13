@@ -40,5 +40,4 @@ public class StoryView extends LinearLayout {
     private int getImageId (String imageName) {
         return getResources().getIdentifier(imageName, "drawable", MyLibraryActivity.PACKAGE_NAME);
     }
-
 }

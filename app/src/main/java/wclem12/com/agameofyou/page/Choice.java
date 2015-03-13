@@ -1,4 +1,4 @@
-package wclem12.com.agameofyou.story;
+package wclem12.com.agameofyou.page;
 
 import java.io.Serializable;
 

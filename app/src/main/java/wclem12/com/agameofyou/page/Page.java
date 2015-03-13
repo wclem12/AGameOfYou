@@ -1,4 +1,4 @@
-package wclem12.com.agameofyou.story;
+package wclem12.com.agameofyou.page;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -44,10 +44,6 @@ public class Page implements Serializable {
 
     public void setChoiceList(ArrayList<Choice> choiceList) {
         this.choiceList = choiceList;
-    }
-
-    public void addChoice(Choice choice) {
-        choiceList.add(choice);
     }
 
 
