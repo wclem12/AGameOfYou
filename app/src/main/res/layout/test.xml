@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/title"
+            android:text="Title Goes Here"
+            android:textSize="16sp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/author"
+            android:text="Author Goes Here"
+            android:textSize="16sp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/genre"
+            android:text="Genre, May Have, Several"
+            android:textSize="16sp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/language"
+            android:text="English"
+            android:textSize="16sp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <ImageView
+            android:layout_width="162dp"
+            android:layout_height="186dp"
+            android:id="@+id/cover"
+            android:src="@drawable/book2"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+</LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/synopsis"
+        android:text="Synopsis goes into this TextView here. It will probably have several lines of
+        text and it will be important to figure out how to handle this part dynamically. Like what happens
+        when it goes off the page?"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/creator"
+        android:text="Creator Username Goes Here"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/create_date"
+        android:text="Create Date Goes Here"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/last_edit"
+        android:text="Last Edit Date Goes Here"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tags"
+        android:text="Tags, Go, Here, Will probably, Contain, Several"
+        android:textSize="16sp"/>
+
+</LinearLayout>

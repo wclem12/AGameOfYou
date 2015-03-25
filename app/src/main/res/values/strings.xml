@@ -1,73 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!--
-    XML Tags
-        <story>                                 Story File XML
-	        <details>
-		        <title> 						Story Title
-                <author>						Story Author
-                <create_date>   				Date Story Was Created
-                <last_edit_date>			    Date of Last Edit
-                <creator_username>		        Author's Username
-                <unique_id>						Unique Identifier. Generated at creation.
-                <genre>							Story Genre. 1 to many?
-                <tags>							(Optional. Can be left blank.) Identifier tags for story.
-            <content>
-                <page_content>					Content of a Single Page
-                <page_type>						Page Types: Title, First, Next, Last (Title Page set to 0, First page at 1, etc.)
-                <page_number>					Page Number
-                <page_text>						Page's Text. Contains HTML tags and signatures for unique characters.
-                <button>						Button Object. 0 to many. (Title Page has one button which starts story. Last Page has two: one to return to main menu, one to start over.
-                    <button_destination>		Page Number of Button's Destination. If -1, return to Main Menu.
-                    <button_text>				Button's text
-
-
-
-        <story_manifest>                        Story Manifest XML
-	        <story>
-		        <title>         			    Button text to be displayed. <title> from Above schema
-                <author>                        Name to be displayed on Main Menu
-                <xml_id>                        XML file path. Take the file name, take out the .xml part, and put it as the id.
-    -->
-
     <!--                    ***************************************                  -->
     <!--                    *               App Info              *                  -->
     <!--                    ***************************************                  -->
     <string name="app_name">A Game of You</string>
-    <string name="manifest_filename">story_manifest</string>
-
-    <!--                    ***************************************                  -->
-    <!--                    *           Tags to be Used           *                  -->
-    <!--                    ***************************************                  -->
-    <!--                    *              Story XML              *                  -->
-    <string name="story_tag">story</string>
-    <string name="details_tag">details</string>
-    <string name="title_tag">title</string>
-    <string name="author_tag">author</string>
-    <string name="create_date_tag">create_date</string>
-    <string name="last_edit_date_tag">last_edit_date</string>
-    <string name="creator_username_tag">creator_username</string>
-    <string name="unique_id_tag">unique_id</string>
-    <string name="genre_tag">genre</string>
-    <string name="tags_tag">tags</string>
-    <string name="cover_tag">cover</string>
-    <string name="content_tag">content</string>
-    <string name="page_content_tag">page_content</string>
-    <string name="page_type_tag">page_type</string>
-    <string name="page_number_tag">page_number</string>
-    <string name="page_text_tag">page_text</string>
-    <string name="button_tag">button</string>
-    <string name="button_destination_tag">button_destination</string>
-    <string name="button_text_tag">button_text</string>
-
-    <!--                    *         Story Manifest XML          *                  -->
-    <string name="manifest_story_manifest_tag">story_manifest</string>
-    <string name="manifest_story_tag">story</string>
-    <string name="manifest_title_tag">title</string>
-    <string name="manifest_author_tag">author</string>
-    <string name="manifest_xml_id_tag">xml_id</string>
-    <string name="manifest_cover_tag">cover</string>
 
     <!--                    ***************************************                  -->
     <!--                    *             Title Page              *                  -->
@@ -105,4 +41,30 @@
     <string name="action_view">View</string>
     <string name="app_version">version</string>
 
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Closed</string>
+    <string name="store_drawer_entry">Store</string>
+    <string name="my_library_drawer_entry">My Library</string>
+    <string name="settings_drawer_entry">Settings</string>
+    <string name="about_drawer_entry">About</string>
+    <string name="favorites_drawer_header">Favorites</string>
+    <string name="in_progress_drawer_header">In Progress</string>
+    <string name="context_menu_read">Read</string>
+    <string name="context_menu_about">About This Story</string>
+    <string name="context_menu_remove">Remove From My Library</string>
+
+    <string name="main_menu">Return to My Bookshelf</string>
+    <string name="restart">Restart Story</string>
+
+    <string name="about_app">A Game of You is a free, open-source, choice-driven story vehicle.</string>
+    <string name="about_app_title">About A Game of You</string>
+
+    <string name="delete">Are you sure you want to remove this story from your bookshelf?</string>
+    <string name="nav_library">Library</string>
+    <string name="nav_my_bookshelf">My Bookshelf</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_about">About</string>
+    <string name="nav_favorites">Favorites</string>
+    <string name="nav_in_progress">In Progress</string>
+    <string name="action_play">Play Story</string>
 </resources>

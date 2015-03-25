@@ -1,32 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.Sepia" parent="android:Theme.Material.Light.DarkActionBar">
+    <style name="Theme.Sepia" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="themeName">Theme.Sepia</item>
-        <item name="android:actionBarStyle">@style/Theme.Sepia.ActionBar</item>
-        <item name="android:actionOverflowMenuStyle">@style/Theme.Sepia.PopupMenu</item>
+
+        <item name="windowActionModeOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="windowActionBar">false</item>
+
+        <item name="android:background">@color/sepia_light</item>
         <item name="android:windowBackground">@color/sepia_light</item>
-        <item name="android:colorAccent">@color/sepia_med</item>
+        <item name="android:colorPrimary">@color/sepia_dark</item>
+        <item name="android:colorPrimaryDark">@color/sepia_med</item>
+        <item name="android:colorAccent">@color/sepia_highlight</item>
         <item name="android:textColor">@color/sepia_dark</item>
-        <item name="android:textColorPrimary">@color/sepia_dark</item>
+        <item name="android:textColorPrimary">@color/sepia_light</item>
+
+        <item name="toolbar_theme">@style/Theme.Sepia.Toolbar</item>
+        <item name="popup_theme">@style/Theme.Sepia.Toolbar.Popup</item>
+        <item name="drawer_theme">@style/Theme.Sepia.Drawer</item>
+        <item name="options_theme">@style/Theme.Sepia.Options</item>
+        <item name="recycler_theme">@style/Theme.Sepia.Recycler</item>
+        <item name="tab_theme">@style/Theme.Sepia.Tab</item>
     </style>
 
-    <style name="Theme.Sepia.ActionBar" parent="android:style/Widget.Material.ActionBar">
-        <item name="android:titleTextStyle">@style/Theme.Sepia.ActionBar.Text</item>
+    <style name="Theme.Sepia.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColor">@color/sepia_light</item>
         <item name="android:textColorPrimary">@color/sepia_light</item>
         <item name="android:background">@color/sepia_dark</item>
     </style>
 
-    <style name="Theme.Sepia.ActionBar.Text" parent="@android:style/TextAppearance.Material.Widget.ActionBar.Title">
+    <style name="Theme.Sepia.Toolbar.Popup" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:textColor">@color/sepia_light</item>
+        <item name="android:textColorPrimary">@color/sepia_light</item>
+        <item name="android:background">@color/sepia_dark</item>
     </style>
 
-    <style name="Theme.Sepia.PopupMenu" parent="android:style/Widget.Material.PopupMenu.Overflow">
-        <item name="android:popupBackground">@color/sepia_med</item>
+    <style name="Theme.Sepia.Drawer" parent="">
+        <item name="android:background">@color/sepia_med</item>
+    </style>
 
-        <!-- Required for pre-Lollipop. -->
-        <item name="overlapAnchor">false</item>
+    <style name="Theme.Sepia.Options" parent ="">
+        <item name="android:background">@color/sepia_med</item>
+        <item name="android:textColor">@color/sepia_dark</item>
+    </style>
 
-        <!-- Required for Lollipop. -->
-        <item name="android:overlapAnchor">false</item>
+    <style name="Theme.Sepia.Recycler" parent="">
+        <item name="android:textColor">@color/sepia_dark</item>
+        <item name="android:background">@color/sepia_light</item>
+    </style>
+
+    <style name="Theme.Sepia.Tab" parent="">
+        <item name="android:textColor">@color/sepia_light</item>
+        <item name="android:background">@color/sepia_med</item>
     </style>
 </resources>

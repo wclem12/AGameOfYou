@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,20 +21,19 @@ import wclem12.com.agameofyou.util.DividerItemDecoration;
 
 public class AboutStoryActivity extends BaseActivity {
     @InjectView(R.id.about_story_list) public RecyclerView aboutStoryRV;
+    @InjectView(R.id.toolbar) public Toolbar toolbar;
 
     private ArrayList<AboutStoryItem> aboutStoryItemList;
-    private String[] tagList = { "Title", "Author", "Create Date", "Last Edit",
-                                    "Creator Username", "Genre", "Tags" };
+    private String[] tagList = { "Title", "Author", "Synopsis", "Create Date", "Last Edit",
+                                    "Creator Username", "Genre", "Tags", "Language" };
+    Story story;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Add up navigation to this fragment
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-
         Bundle extra = getIntent().getBundleExtra("extra");
-        Story story = (Story) extra.getSerializable("Story");
+        story = (Story) extra.getSerializable("Story");
 
         aboutStoryItemList = new ArrayList<>();
 
@@ -42,9 +42,13 @@ public class AboutStoryActivity extends BaseActivity {
 
         ButterKnife.inject(this);
 
-        String[] dataList = { story.getTitle(), story.getAuthor(), story.getCreateDate(),
-                                story.getLastEditDate(), story.getCreatorUsername(),
-                                story.getGenre(), story.getTags() };
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        String[] dataList = { story.getTitle(), story.getAuthor(), story.getSynopsis(),
+                                story.getCreateDate(), story.getLastEditDate(),
+                                story.getCreatorUsername(), story.getGenre(),
+                                story.getTags(), story.getLanguage() };
 
         for(int i = 0; i < tagList.length; i++) {
             AboutStoryItem aboutStoryItem = new AboutStoryItem(tagList[i], dataList[i]);
@@ -57,7 +61,6 @@ public class AboutStoryActivity extends BaseActivity {
 
         AboutStoryRecyclerAdapter aboutStoryAdapter = new AboutStoryRecyclerAdapter(null, null);
         aboutStoryRV.setAdapter(aboutStoryAdapter);
-
     }
 
     @Override
@@ -69,13 +72,6 @@ public class AboutStoryActivity extends BaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onStop() {
-        getActionBar().setDisplayHomeAsUpEnabled(false);
-
-        super.onStop();
     }
 
     class AboutStoryRecyclerAdapter extends BaseRecyclerAdapter<AboutStoryItem> {

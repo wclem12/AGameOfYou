@@ -1,26 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.Light" parent="android:Theme.Material.Light.DarkActionBar">
+    <style name="Theme.Light" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="themeName">Theme.Light</item>
-        <item name="android:actionOverflowMenuStyle">@style/Theme.Light.PopupMenu</item>
+
+        <item name="windowActionModeOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="windowActionBar">false</item>
+
         <item name="android:colorPrimary">@color/blue</item>
         <item name="android:colorPrimaryDark">@color/medium_blue</item>
         <item name="android:colorAccent">@color/dark_blue</item>
         <item name="android:textColor">@color/light_text</item>
         <item name="android:textColorPrimary">@color/light_text</item>
 
-        <item name="windowActionModeOverlay">true</item>
-        <item name="windowActionBarOverlay">true</item>
-        <item name="windowActionBar">false</item>
+        <item name="toolbar_theme">@style/Theme.Light.Toolbar</item>
+        <item name="popup_theme">@style/Theme.Light.Toolbar.Popup</item>
+        <item name="drawer_theme">@style/Theme.Light.Drawer</item>
+        <item name="options_theme">@style/Theme.Light.Options</item>
+        <item name="recycler_theme">@style/Theme.Light.Recycler</item>
+        <item name="tab_theme">@style/Theme.Light.Tab</item>
     </style>
 
-    <style name="Theme.Light.PopupMenu" parent="android:style/Widget.Material.PopupMenu.Overflow">
-        <!-- Required for pre-Lollipop. -->
-        <item name="overlapAnchor">false</item>
-
-        <!-- Required for Lollipop. -->
-        <item name="android:overlapAnchor">false</item>
-
-        <item name="android:popupBackground">@color/medium_blue</item>
+    <style name="Theme.Light.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColor">@color/dark_text</item>
+        <item name="android:textColorPrimary">@color/dark_text</item>
+        <item name="android:background">@color/blue</item>
     </style>
+
+    <style name="Theme.Light.Toolbar.Popup" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColor">@color/dark_text</item>
+        <item name="android:textColorPrimary">@color/dark_text</item>
+        <item name="android:background">@color/blue</item>
+    </style>
+
+    <style name="Theme.Light.Drawer" parent="">
+        <item name="android:background">@color/dark_blue</item>
+        <item name="android:textColor">@color/dark_text</item>
+    </style>
+
+    <style name="Theme.Light.Options" parent ="">
+        <item name="android:background">@color/dark_blue</item>
+        <item name="android:textColor">@color/dark_text</item>
+    </style>
+
+    <style name="Theme.Light.Recycler" parent="">
+        <item name="android:textColor">@color/light_text</item>
+    </style>
+
+    <style name="Theme.Light.Tab" parent="">
+        <item name="android:textColor">@color/dark_text</item>
+        <item name="android:background">@color/dark_blue</item>
+    </style>
+
 </resources>

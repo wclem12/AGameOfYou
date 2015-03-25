@@ -3,6 +3,8 @@ package wclem12.com.agameofyou.page;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import wclem12.com.agameofyou.choice.Choice;
+
 public class Page implements Serializable {
     private int id = -1;
     private String type = null;

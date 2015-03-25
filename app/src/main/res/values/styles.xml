@@ -1,1 +1,23 @@
-<resources></resources>
+<resources>
+    <style name="Widget.Drawer.Header" parent="">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginLeft">14dp</item>
+        <item name="android:layout_marginRight">14dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginBottom">6dp</item>
+    </style>
+    <style name="Widget.Drawer.Entry" parent="">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:padding">14dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:clickable">true</item>
+    </style>
+</resources>

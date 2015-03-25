@@ -1,26 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.Dark" parent="android:Theme.Material">
+    <style name="Theme.Dark" parent="Theme.AppCompat.NoActionBar">
         <item name="themeName">Theme.Dark</item>
-        <item name="android:actionBarStyle">@style/Theme.Dark.ActionBar</item>
-        <item name="android:actionOverflowMenuStyle">@style/Theme.Dark.PopupMenu</item>
+
+        <item name="windowActionModeOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="windowActionBar">false</item>
+
+        <item name="android:background">@color/dark_background</item>
         <item name="android:windowBackground">@color/dark_background</item>
+        <item name="android:colorPrimary">@color/dark_bar</item>
+        <item name="android:colorPrimaryDark">@color/dark_accent</item>
         <item name="android:colorAccent">@color/dark_accent</item>
         <item name="android:textColor">@color/dark_text</item>
         <item name="android:textColorPrimary">@color/dark_text</item>
+
+        <item name="toolbar_theme">@style/Theme.Dark.Toolbar</item>
+        <item name="popup_theme">@style/Theme.Dark.Toolbar.Popup</item>
+        <item name="drawer_theme">@style/Theme.Dark.Drawer</item>
+        <item name="options_theme">@style/Theme.Dark.Options</item>
+        <item name="recycler_theme">@style/Theme.Dark.Recycler</item>
+        <item name="tab_theme">@style/Theme.Dark.Tab</item>
     </style>
 
-    <style name="Theme.Dark.PopupMenu" parent="android:style/Widget.Material.PopupMenu.Overflow">
-        <!-- Required for pre-Lollipop. -->
-        <item name="overlapAnchor">false</item>
-
-        <!-- Required for Lollipop. -->
-        <item name="android:overlapAnchor">false</item>
-
-        <item name="android:popupBackground">@color/dark_accent</item>
-    </style>
-
-    <style name="Theme.Dark.ActionBar" parent="android:style/Widget.Material.ActionBar">
+    <style name="Theme.Dark.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColor">@color/dark_text</item>
+        <item name="android:textColorPrimary">@color/dark_text</item>
         <item name="android:background">@color/dark_bar</item>
+    </style>
+
+    <style name="Theme.Dark.Toolbar.Popup" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColor">@color/dark_text</item>
+        <item name="android:textColorPrimary">@color/dark_text</item>
+        <item name="android:background">@color/dark_accent</item>
+    </style>
+
+    <style name="Theme.Dark.Drawer" parent="">
+        <item name="android:background">@color/dark_accent</item>
+    </style>
+
+    <style name="Theme.Dark.Options" parent ="">
+        <item name="android:background">@color/dark_accent</item>
+        <item name="android:textColor">@color/dark_text</item>
+    </style>
+
+    <style name="Theme.Dark.Recycler" parent="">
+        <item name="android:textColor">@color/dark_text</item>
+        <item name="android:background">@color/dark_background</item>
+    </style>
+
+    <style name="Theme.Dark.Tab" parent="">
+        <item name="android:textColor">@color/dark_text</item>
+        <item name="android:background">@color/dark_accent</item>
     </style>
 </resources>

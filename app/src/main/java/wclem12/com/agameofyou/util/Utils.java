@@ -5,10 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.util.TypedValue;
 import android.widget.TextView;
 
 import wclem12.com.agameofyou.R;
-import wclem12.com.agameofyou.activity.MyLibraryActivity;
+import wclem12.com.agameofyou.activity.MyBookshelfActivity;
 
 public class Utils {
     public static String sTheme = "Theme.Light";
@@ -46,7 +47,7 @@ public class Utils {
     public final static String FONTSTYLEBOLD_SOURCE_SANS_PRO = "SourceSansPro-Bold.otf";
     public final static String FONTSTYLEBOLD_TITILLIUM = "Titillium-Bold.otf";
 
-    public final static String ACTIVITY_MAIN = "activity_mylibrary";
+    public final static String ACTIVITY_MAIN = "activity_ui";
     public final static String ACTIVITY_TITLE = "activitiy_title_page";
     public final static String ACTIVITY_STORY = "activity_story_page";
 
@@ -113,13 +114,13 @@ public class Utils {
     }
 
     public static void SaveSettings(String activityName, int storyId, int pageNumber) {
-        SharedPreferences settings = MyLibraryActivity.CONTEXT_NAME.getSharedPreferences(MyLibraryActivity.PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences settings = MyBookshelfActivity.CONTEXT_NAME.getSharedPreferences(MyBookshelfActivity.PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
 
         editor.putString("Activity", activityName);
 
         if (activityName.equals(ACTIVITY_MAIN)) {
-            editor.putBoolean("isList", MyLibraryActivity.isList);
+            editor.putBoolean("isList", MyBookshelfActivity.isList);
         }
 
         if(storyId > 0) {
@@ -148,5 +149,24 @@ public class Utils {
                 choiceText.setTypeface(typeface, Typeface.BOLD);
             }
         }
+    }
+
+    public static int getActionBarHeight(Context context) {
+        TypedValue tv = new TypedValue();
+        if (context.getTheme().resolveAttribute(R.attr.actionBarSize, tv, true)) {
+            return TypedValue.complexToDimensionPixelSize(tv.data, context.getResources().getDisplayMetrics());
+        }
+        return -1;
+    }
+
+    public static int clamp(double min, double val, double max) {
+        return (int) Math.max(min, Math.min(max, val));
+    }
+
+    public static void UpdateProgress(int storyId, int currentPage) {
+        BookshelfDBHelper helper = new BookshelfDBHelper(MyBookshelfActivity.CONTEXT_NAME);
+
+        helper.updateProgress(storyId, currentPage);
+        helper.closeDB();
     }
 }

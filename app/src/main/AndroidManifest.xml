@@ -7,7 +7,7 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.Light" >
         <activity
-            android:name=".activity.MyLibraryActivity"
+            android:name=".activity.MyBookshelfActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,9 +40,5 @@
         </activity>
 
         <!-- About Page -->
-        <activity
-            android:label="About A Game of You"
-            android:name=".about_app.AboutAppActivity">
-        </activity>
     </application>
 </manifest>

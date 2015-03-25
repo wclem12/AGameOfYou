@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,14 +19,16 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import wclem12.com.agameofyou.R;
 import wclem12.com.agameofyou.activity.BaseActivity;
-import wclem12.com.agameofyou.activity.MyLibraryActivity;
+import wclem12.com.agameofyou.activity.MyBookshelfActivity;
 import wclem12.com.agameofyou.util.CustomTextView;
 import wclem12.com.agameofyou.util.Utils;
 
 public class SettingsActivity extends BaseActivity {
+    @InjectView(R.id.toolbar) public Toolbar toolbar;
     @InjectView(R.id.textSizeSpinner) public Spinner textSizeSpinner;
     @InjectView(R.id.fontStyleSpinner) public Spinner fontStyleSpinner;
     @InjectView(R.id.themeSpinner) public Spinner themeSpinner;
+
 
     private String callingActivity = "";
     private float textSizeFloat;
@@ -45,20 +48,18 @@ public class SettingsActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //Add up navigation to this fragment
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-
         setContentView(R.layout.activity_settings);
-
         ButterKnife.inject(this);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //get calling activity
         Bundle extra = getIntent().getBundleExtra("extra");
         callingActivity = extra.getString("Activity");
 
         //get sharedprefs
-        SharedPreferences settings = getSharedPreferences(MyLibraryActivity.PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences settings = getSharedPreferences(MyBookshelfActivity.PREFS_NAME, Context.MODE_PRIVATE);
 
         textSizePos = settings.getInt("textSizePos", 1);
         fontStylePos = settings.getInt("fontStylePos", 6);
@@ -362,6 +363,7 @@ public class SettingsActivity extends BaseActivity {
             themeText.setText(themeValues[position]);
             themeDisplayLayout.setBackgroundColor(backgroundColor);
             themeDisplayText.setTextColor(textColor);
+            themeDisplayText.setBackgroundColor(backgroundColor);
 
             return view;
         }
@@ -392,13 +394,13 @@ public class SettingsActivity extends BaseActivity {
 
     @Override
     public void onStop() {
-        getActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         super.onStop();
     }
 
     private void saveSettings() {
-        SharedPreferences settings = getSharedPreferences(MyLibraryActivity.PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences settings = getSharedPreferences(MyBookshelfActivity.PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         editor.putFloat("textsize", Utils.sTextSize);
         editor.putInt("textSizePos", textSizePos);

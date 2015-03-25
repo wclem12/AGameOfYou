@@ -3,58 +3,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="5dp"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingBottom="5dp"
-    tools:context=".MainActivity"
-    android:id="@+id/title_layout">
+    tools:context=".MainActivity">
+
+    <!-- Toolbar -->
+    <include layout="@layout/toolbar"/>
+
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingBottom="5dp">
-        <ImageView
-            android:layout_width="284dp"
-            android:layout_height="371dp"
-            android:id="@+id/coverImageLarge"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="125dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center_vertical">
-        <TextView
-            android:text="@string/title_page_title"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="5dp"
-            android:gravity="center"
-            android:textSize="22sp"
-            android:id="@+id/title_page_title"/>
-        <TextView
-            android:text="@string/title_page_author"
+        android:paddingTop="5dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="5dp"
+        android:id="@+id/title_layout">
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textSize="16sp"
-            android:id="@+id/title_page_author"/>
+            android:paddingBottom="5dp">
+            <ImageView
+                android:layout_width="284dp"
+                android:layout_height="371dp"
+                android:id="@+id/coverImageLarge"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="85dp"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+            <TextView
+                android:text="@string/title_page_title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:gravity="center"
+                android:textSize="22sp"
+                android:id="@+id/title_page_title"/>
+            <TextView
+                android:text="@string/title_page_author"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:id="@+id/title_page_author"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="bottom|center">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_page_start_button"
+                android:textSize="20sp"
+                android:id="@+id/title_page_button"
+                android:layout_gravity="bottom|center"/>
+        </LinearLayout>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="bottom|center">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/title_page_start_button"
-            android:textSize="20sp"
-            android:id="@+id/title_page_button"
-            android:layout_gravity="bottom|center"/>
-    </LinearLayout>
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@android:id/list"
-        android:visibility="invisible"></ListView>
 </LinearLayout>

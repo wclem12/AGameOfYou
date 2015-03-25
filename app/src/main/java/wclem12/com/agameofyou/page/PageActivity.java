@@ -6,6 +6,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,9 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import wclem12.com.agameofyou.R;
-import wclem12.com.agameofyou.about_app.AboutAppActivity;
 import wclem12.com.agameofyou.activity.BaseActivity;
-import wclem12.com.agameofyou.activity.MyLibraryActivity;
-import wclem12.com.agameofyou.settings.SettingsActivity;
+import wclem12.com.agameofyou.choice.Choice;
+import wclem12.com.agameofyou.choice.ChoiceView;
 import wclem12.com.agameofyou.story.Story;
 import wclem12.com.agameofyou.util.BaseRecyclerAdapter;
 import wclem12.com.agameofyou.util.DividerItemDecoration;
@@ -27,6 +27,7 @@ import wclem12.com.agameofyou.util.Utils;
 
 public class PageActivity extends BaseActivity {
     @InjectView(R.id.choice_list) public RecyclerView choiceListRV;
+    @InjectView(R.id.toolbar) public Toolbar toolbar;
 
     private Story story;
     private int currentPage = 1;
@@ -42,9 +43,8 @@ public class PageActivity extends BaseActivity {
 
         Bundle extra = getIntent().getBundleExtra("extra");
         story = (Story) extra.getSerializable("Story");
-        int page = (Integer) extra.getSerializable("Page");
 
-        loadPage(page);
+        loadPage(story.getCurrentPage());
     }
 
     private void loadPage(int destination){
@@ -53,7 +53,9 @@ public class PageActivity extends BaseActivity {
 
         ButterKnife.inject(this);
 
-        //update current page for shared prefs
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //updateProgress current page for shared prefs
         currentPage = destination;
 
         //since we're dealing with indexes, subtract one
@@ -71,39 +73,29 @@ public class PageActivity extends BaseActivity {
         choiceListRV.setAdapter(storyAdapter);
 
         Utils.SaveSettings(Utils.ACTIVITY_STORY, story.getId(), currentPage);
+        updateProgress();
+    }
+
+    private void updateProgress() {
+        Utils.UpdateProgress(story.getId(), currentPage);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_story_page, menu);
+        getMenuInflater().inflate(R.menu.menu_page, menu);
 
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                Bundle extra = new Bundle();
-                extra.putSerializable("Activity", Utils.ACTIVITY_STORY);
-
-                Intent intent = new Intent(MyLibraryActivity.CONTEXT_NAME, SettingsActivity.class);
-                intent.putExtra("extra", extra);
-                startActivityForResult(intent, REQUEST_CODE);
-                return true;
             case R.id.action_restart:
                 restart();
                 return true;
-            case R.id.action_main_menu:
+            case android.R.id.home:
                 mainMenu();
-                return true;
-            case R.id.action_about:
-                intent = new Intent(MyLibraryActivity.CONTEXT_NAME, AboutAppActivity.class);
-                startActivity(intent);
                 return true;
         }
 
@@ -113,7 +105,7 @@ public class PageActivity extends BaseActivity {
     private void restart() {
         //load page 1
         loadPage(1);
-        //update saved settings
+        //updateProgress saved settings
     }
 
     private void mainMenu() {
@@ -158,9 +150,9 @@ public class PageActivity extends BaseActivity {
             if(destination == 0) {
                 String location = ((TextView) v.findViewById(R.id.page_choice_text)).getText().toString();
 
-                if(location.equals("Main Menu")) {
+                if(location.equals(getResources().getString(R.string.main_menu))) {
                     mainMenu();
-                } else if (location.equals("Restart Story")) {
+                } else if (location.equals(getResources().getString(R.string.restart))) {
                     restart();
                 }
 
@@ -171,8 +163,15 @@ public class PageActivity extends BaseActivity {
     }
 
     @Override
+    protected void onStop() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+        super.onStop();
+    }
+
+    @Override
     public void onBackPressed() {
-        Utils.SaveSettings("activity_mylibrary", -1, -1);
+        Utils.SaveSettings("activity_ui", -1, -1);
 
         super.onBackPressed();
     }

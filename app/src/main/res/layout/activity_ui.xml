@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="UnusedAttribute">
+
+    <!-- As the main content view, the view below consumes the entire
+         space available using match_parent in both dimensions. -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:transitionGroup="false"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
+
+        <!-- Toolbar -->
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+            android:theme="?toolbar_theme"
+            android:popupTheme="?popup_theme">
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/navSpinner">
+            </Spinner>
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/my_bookshelf"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:theme="?recycler_theme"
+            />
+    </LinearLayout>
+
+    <!-- Nav drawer -->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/drawer_list"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:elevation="5dp"
+        android:theme="?drawer_theme"/>
+
+    <include layout="@layout/view_nav_drawer"/>
+
+</android.support.v4.widget.DrawerLayout>
+
